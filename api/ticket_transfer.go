@@ -51,27 +51,35 @@ func (s *SmartContract) Init(ctx contractapi.TransactionContextInterface) (strin
 		"d4735e3a265e",
 		"4e07408562be",
 	}
-	var userNames = [4]string{"管理员", "①号物流", "②号物流", "③号物流"}
+	var userNames = [4]string{"company_core", "company_a", "company_b", "company_c"}
 	var balances = [4]float64{10000, 0, 0, 0}
 	//初始化账号数据
+	var accountList []Account
 	for i, val := range accountIds {
 		account := Account{
 			AccountId: val,
 			UserName:  userNames[i],
 			Balance:   balances[i],
 		}
+		accountList = append(accountList, account)
 		// 写入账本
 		accountBytes, err := json.Marshal(account)
 		if err != nil {
 			return "", fmt.Errorf("failed to marshal account")
 		}
-		if err = ctx.GetStub().PutState(val, accountBytes); err != nil {
+
+		accountKey, err := ctx.GetStub().CreateCompositeKey(AccountKey, []string{account.AccountId})
+		if err != nil {
+			return "", fmt.Errorf("Failed to create composite key: %v", err)
+		}
+
+		err = ctx.GetStub().PutState(accountKey, accountBytes)
+		if err != nil {
 			return "", fmt.Errorf("Failed to write accountlists into ledger: %v", err)
 		}
 	}
 
-	result := coreOrgMSPID
-	return result, nil
+	return fmt.Sprintf("CoreOrgMSPID: %v, Account list: %+v", coreOrgMSPID, accountList), nil
 }
 
 // 只有核心企业可以发行票据
@@ -134,7 +142,6 @@ func (s *SmartContract) CreateTicket(ctx contractapi.TransactionContextInterface
 
 // transfer ticket
 func (s *SmartContract) TransferTicket(ctx contractapi.TransactionContextInterface, ticketID string, toOrgMSPID string) (string, error) {
-
 	ticketBytes, err := ctx.GetStub().GetState(ticketID)
 	if err != nil {
 		return "", fmt.Errorf("Failed to get ticket state: %v", err)
@@ -164,51 +171,27 @@ func (s *SmartContract) TransferTicket(ctx contractapi.TransactionContextInterfa
 	}
 
 	// setting endorsement, only owner can update or query private data
-	if err = setAssetStateBasedEndorsement(ctx, ticketID, toOrgMSPID); err != nil {
+	err = setAssetStateBasedEndorsement(ctx, ticketID, toOrgMSPID)
+	if err != nil {
 		return "", fmt.Errorf("failed to set ticket endorsement: %v", err)
 	}
-	// collectionSender := buildCollectionName(clientOrgID)
+	transMap, err := ctx.GetStub().GetTransient()
+	if err != nil {
+		return "", fmt.Errorf("error getting transient data: %v", err)
+	}
 
-	// immutablePropertiesJSON, err := ctx.GetStub().GetPrivateData(collectionSender, ticketID)
-	// if err != nil {
-	// 	return "", fmt.Errorf("Failed to get ticket private data: %v", err)
-	// }
+	immutablePropertiesJSON, ok := transMap["ticket_properties"]
+	if !ok {
+		return "", fmt.Errorf("asset_properties key not found in the transient map")
+	}
 
-	// err = ctx.GetStub().DelPrivateData(collectionSender, ticket.ID)
-	// if err != nil {
-	// 	return "", fmt.Errorf("failed to delete Asset private details from seller: %v", err)
-	// }
-
-	// collectionBuyer := buildCollectionName(toOrgMSPID)
-	// err = ctx.GetStub().PutPrivateData(collectionBuyer, ticket.ID, immutablePropertiesJSON)
-	// if err != nil {
-	// 	return "", fmt.Errorf("failed to put Asset private properties for buyer: %v", err)
-	// }
-
-	// if err = s.TransferTicketPrivate(ctx, updateTicketJSON, ticket.ID, clientOrgID, toOrgMSPID); err != nil {
-	// 	return "", err
-	// }
+	collectionBuyer := buildCollectionName(toOrgMSPID)
+	err = ctx.GetStub().PutPrivateData(collectionBuyer, ticket.ID, immutablePropertiesJSON)
+	if err != nil {
+		return "", fmt.Errorf("failed to put Asset private properties for buyer: %v", err)
+	}
 
 	return fmt.Sprintf("Succeed! Transfer %v from %v to %v \n", ticket.ID, clientOrgID, toOrgMSPID), nil
-}
-
-func (s *SmartContract) TransferTicketPrivate(ctx contractapi.TransactionContextInterface, updateTicketJSON []byte, ticketID, clientOrgID, toOrgMSPID string) error {
-	// process private data
-	collectionSender := buildCollectionName(clientOrgID) //_implicit_org_Org1MSP
-	privatedata, err := ctx.GetStub().GetPrivateData(collectionSender, ticketID)
-	if err != nil {
-		return fmt.Errorf("Failed to get ticket private data: %v", err)
-	}
-	if err = ctx.GetStub().DelPrivateData(collectionSender, ticketID); err != nil {
-		return fmt.Errorf("Failed to delete ticket private data: %v", err)
-	}
-
-	collectionReciever := buildCollectionName(toOrgMSPID)
-	if err = ctx.GetStub().PutPrivateData(collectionReciever, ticketID, privatedata); err != nil {
-		return fmt.Errorf("Failed to put update ticket's private data: %v", err)
-	}
-
-	return nil
 }
 
 // 更改票据公开信息备注
