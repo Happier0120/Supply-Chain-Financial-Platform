@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"time"
+	"yh/model"
+	"yh/pkg/utils"
 
 	"github.com/golang/protobuf/ptypes"
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
@@ -11,7 +13,7 @@ import (
 
 // QueryResult structure used for handling result of query
 type QueryResult struct {
-	Record    Ticket
+	Record    model.Ticket
 	TxId      string    `json:"txId"`
 	Timestamp time.Time `json:"timestamp"`
 }
@@ -37,8 +39,8 @@ func (s *SmartContract) QueryTicketPrivate(ctx contractapi.TransactionContextInt
 	return fmt.Sprintf("Succeed! %v's private field: %+v", ticketID, ticketprivate), nil
 }
 
-// ReadAsset returns the public asset data
-func (s *SmartContract) ReadTicket(ctx contractapi.TransactionContextInterface, ticketID string) (*Ticket, error) {
+// ReadTicket returns the public ticket data
+func (s *SmartContract) ReadTicket(ctx contractapi.TransactionContextInterface, ticketID string) (*model.Ticket, error) {
 	// Since only public data is accessed in this function, no access control is required
 	ticketJSON, err := ctx.GetStub().GetState(ticketID)
 	if err != nil {
@@ -48,7 +50,7 @@ func (s *SmartContract) ReadTicket(ctx contractapi.TransactionContextInterface, 
 		return nil, fmt.Errorf("%s does not exist", ticketID)
 	}
 
-	var ticket *Ticket
+	var ticket *model.Ticket
 	err = json.Unmarshal(ticketJSON, &ticket)
 	if err != nil {
 		return nil, err
@@ -63,11 +65,11 @@ func (s *SmartContract) ReadTicketPrivateProperties(ctx contractapi.TransactionC
 	if err != nil {
 		return "", fmt.Errorf("Failed to get ticket state: %v", err)
 	}
-	var ticket Ticket
+	var ticket model.Ticket
 	if err = json.Unmarshal(ticketBytes, &ticket); err != nil {
 		return "", fmt.Errorf("Failed to unmarshal ticket: %v", err)
 	}
-	clientOrgID, err := getClientOrgMSPID(ctx, false)
+	clientOrgID, err := utils.GetClientOrgMSPID(ctx, false)
 	if err != nil {
 		return "", fmt.Errorf("Failed to get client Org MSPID: %v", err)
 	}
@@ -76,7 +78,7 @@ func (s *SmartContract) ReadTicketPrivateProperties(ctx contractapi.TransactionC
 	}
 
 	// get private data
-	collectionSender := buildCollectionName(clientOrgID)
+	collectionSender := utils.BuildCollectionName(clientOrgID)
 	privatedata, err := ctx.GetStub().GetPrivateData(collectionSender, ticketID)
 	if err != nil {
 		return "", fmt.Errorf("Failed to get ticket private data: %v", err)
@@ -101,7 +103,7 @@ func (s *SmartContract) QueryTicketHistory(ctx contractapi.TransactionContextInt
 			return "", fmt.Errorf("Failed to get iterator next: %v", err)
 		}
 
-		var ticket Ticket
+		var ticket model.Ticket
 		err = json.Unmarshal(response.Value, &ticket)
 		if err != nil {
 			return "", fmt.Errorf("Failed to unmarshal ticket: %v", err)
@@ -133,14 +135,14 @@ func (s *SmartContract) GetAllTicket(ctx contractapi.TransactionContextInterface
 	}
 	defer resultsIterator.Close()
 
-	var ticketList []Ticket
+	var ticketList []model.Ticket
 	for resultsIterator.HasNext() {
 		queryResponse, err := resultsIterator.Next()
 		if err != nil {
 			return []string{""}, fmt.Errorf("Failed to get Iterator next: %v", err)
 		}
 
-		var ticket Ticket
+		var ticket model.Ticket
 		err = json.Unmarshal(queryResponse.Value, &ticket)
 		if err != nil {
 			return []string{""}, fmt.Errorf("Failed to unmarshal ticket: %v", err)

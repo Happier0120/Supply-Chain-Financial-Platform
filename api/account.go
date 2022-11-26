@@ -4,23 +4,18 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"yh/model"
 
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 )
 
-type Account struct {
-	AccountId string  `json:"accountId"` //账号ID
-	UserName  string  `json:"userName"`  //账号名称
-	Balance   float64 `json:"balance"`   //余额
-}
-
 // QueryAccountList 查询账户列表
 func (s *SmartContract) QueryAccountInfor(ctx contractapi.TransactionContextInterface, accountId string) (string, error) {
-	var accountList []Account
-	var account Account
+	var accountList []model.Account
+	var account model.Account
 
 	if accountId == "" {
-		resultIterator, err := ctx.GetStub().GetStateByPartialCompositeKey(AccountKey, []string{})
+		resultIterator, err := ctx.GetStub().GetStateByPartialCompositeKey(model.AccountKey, []string{})
 		if err != nil {
 			return "", fmt.Errorf("Get accountList error: %v", err)
 		}
@@ -39,7 +34,7 @@ func (s *SmartContract) QueryAccountInfor(ctx contractapi.TransactionContextInte
 			accountList = append(accountList, account)
 		}
 	} else {
-		resultIterator, err := ctx.GetStub().GetStateByPartialCompositeKey(AccountKey, []string{accountId})
+		resultIterator, err := ctx.GetStub().GetStateByPartialCompositeKey(model.AccountKey, []string{accountId})
 		if err != nil {
 			return "", fmt.Errorf("Get accountList error: %v", err)
 		}
