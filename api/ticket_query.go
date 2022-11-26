@@ -3,7 +3,6 @@ package api
 import (
 	"encoding/json"
 	"fmt"
-	"time"
 	"yh/model"
 	"yh/pkg/utils"
 
@@ -11,24 +10,19 @@ import (
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 )
 
-// QueryResult structure used for handling result of query
-type QueryResult struct {
-	Record    model.Ticket
-	TxId      string    `json:"txId"`
-	Timestamp time.Time `json:"timestamp"`
-}
-
 // 查询票据公开数据
-func (s *SmartContract) QueryTicket(ctx contractapi.TransactionContextInterface, ticketID string) (string, error) {
+func (s *SmartContract) QueryTicket(ctx contractapi.TransactionContextInterface, ticketID string) ([]*model.Ticket, error) {
+	var ticketList []*model.Ticket
 	ticket, err := s.ReadTicket(ctx, ticketID)
 	if err != nil {
-		return "", fmt.Errorf("Failed to get ticket state: %v", err)
+		return nil, fmt.Errorf("Failed to get ticket state: %v", err)
 	}
+	ticketList = append(ticketList, ticket)
 
-	return fmt.Sprintf("Succeed! %v : %+v", ticketID, ticket), nil
+	return ticketList, nil
 }
 
-// 查询票据公开数据
+// 查询票据隐私数据
 func (s *SmartContract) QueryTicketPrivate(ctx contractapi.TransactionContextInterface, ticketID string) (string, error) {
 
 	ticketprivate, err := s.ReadTicketPrivateProperties(ctx, ticketID)
@@ -39,7 +33,6 @@ func (s *SmartContract) QueryTicketPrivate(ctx contractapi.TransactionContextInt
 	return fmt.Sprintf("Succeed! %v's private field: %+v", ticketID, ticketprivate), nil
 }
 
-// ReadTicket returns the public ticket data
 func (s *SmartContract) ReadTicket(ctx contractapi.TransactionContextInterface, ticketID string) (*model.Ticket, error) {
 	// Since only public data is accessed in this function, no access control is required
 	ticketJSON, err := ctx.GetStub().GetState(ticketID)
@@ -89,70 +82,65 @@ func (s *SmartContract) ReadTicketPrivateProperties(ctx contractapi.TransactionC
 }
 
 // 溯源，查询指定票据的从发行到结算的流通全过程
-func (s *SmartContract) QueryTicketHistory(ctx contractapi.TransactionContextInterface, ticketID string) (string, error) {
+func (s *SmartContract) QueryTicketHistory(ctx contractapi.TransactionContextInterface, ticketID string) ([]*model.QueryResult, error) {
 	resultsIterator, err := ctx.GetStub().GetHistoryForKey(ticketID)
 	if err != nil {
-		return "", fmt.Errorf("Failed to get history for key: %v", err)
+		return nil, fmt.Errorf("Failed to get history for key: %v", err)
 	}
 	defer resultsIterator.Close()
 
-	var results []QueryResult
+	var queryResultList []*model.QueryResult
 	for resultsIterator.HasNext() {
 		response, err := resultsIterator.Next()
 		if err != nil {
-			return "", fmt.Errorf("Failed to get iterator next: %v", err)
+			return nil, fmt.Errorf("Failed to get iterator next: %v", err)
 		}
 
 		var ticket model.Ticket
 		err = json.Unmarshal(response.Value, &ticket)
 		if err != nil {
-			return "", fmt.Errorf("Failed to unmarshal ticket: %v", err)
+			return nil, fmt.Errorf("Failed to unmarshal ticket: %v", err)
 		}
 
 		timestamp, err := ptypes.Timestamp(response.Timestamp)
 		if err != nil {
-			return "", fmt.Errorf("Failed to get timestamp: %v", err)
+			return nil, fmt.Errorf("Failed to get timestamp: %v", err)
 		}
-		record := QueryResult{
+		record := &model.QueryResult{
 			TxId:      response.TxId,
 			Timestamp: timestamp,
 			Record:    ticket,
 		}
-		results = append(results, record)
+		queryResultList = append(queryResultList, record)
 	}
 
-	result := string(fmt.Sprintf("%+v", results))
-	return result, nil
+	return queryResultList, nil
 }
 
 // 查询所有公开数据
-func (s *SmartContract) GetAllTicket(ctx contractapi.TransactionContextInterface) ([]string, error) {
+func (s *SmartContract) GetAllTicket(ctx contractapi.TransactionContextInterface) ([]*model.Ticket, error) {
 
 	resultsIterator, err := ctx.GetStub().GetStateByRange("", "")
 	if err != nil {
-		return []string{""}, fmt.Errorf("Failed to get all tickets: %v", err)
+		return nil, fmt.Errorf("Failed to get all tickets: %v", err)
 
 	}
 	defer resultsIterator.Close()
 
-	var ticketList []model.Ticket
+	var ticketList []*model.Ticket
 	for resultsIterator.HasNext() {
 		queryResponse, err := resultsIterator.Next()
 		if err != nil {
-			return []string{""}, fmt.Errorf("Failed to get Iterator next: %v", err)
+			return nil, fmt.Errorf("Failed to get Iterator next: %v", err)
 		}
 
-		var ticket model.Ticket
+		var ticket *model.Ticket
 		err = json.Unmarshal(queryResponse.Value, &ticket)
 		if err != nil {
-			return []string{""}, fmt.Errorf("Failed to unmarshal ticket: %v", err)
+			return nil, fmt.Errorf("Failed to unmarshal ticket: %v", err)
 		}
 		ticketList = append(ticketList, ticket)
 	}
-	var result []string
-	for _, val := range ticketList {
-		result = append(result, string(fmt.Sprintf("%v", val)))
-	}
 
-	return result, nil
+	return ticketList, nil
 }

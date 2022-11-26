@@ -9,15 +9,15 @@ import (
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 )
 
-// QueryAccountList 查询账户列表
-func (s *SmartContract) QueryAccountInfor(ctx contractapi.TransactionContextInterface, accountId string) (string, error) {
-	var accountList []model.Account
-	var account model.Account
+// QueryAccountList 查询账户
+func (s *SmartContract) QueryAccountInfor(ctx contractapi.TransactionContextInterface, accountId string) ([]*model.Account, error) {
+	var accountList []*model.Account
+	var account *model.Account
 
 	if accountId == "" {
 		resultIterator, err := ctx.GetStub().GetStateByPartialCompositeKey(model.AccountKey, []string{})
 		if err != nil {
-			return "", fmt.Errorf("Get accountList error: %v", err)
+			return nil, fmt.Errorf("Get accountList error: %v", err)
 		}
 		defer resultIterator.Close()
 
@@ -25,18 +25,18 @@ func (s *SmartContract) QueryAccountInfor(ctx contractapi.TransactionContextInte
 		for resultIterator.HasNext() {
 			val, err := resultIterator.Next()
 			if err != nil {
-				return "", errors.New(fmt.Sprintf("get next hash error: %v", err))
+				return nil, errors.New(fmt.Sprintf("get next hash error: %v", err))
 			}
 			err = json.Unmarshal(val.GetValue(), &account)
 			if err != nil {
-				return "", errors.New(fmt.Sprintf("unmarshal error: %v", err))
+				return nil, errors.New(fmt.Sprintf("unmarshal error: %v", err))
 			}
 			accountList = append(accountList, account)
 		}
 	} else {
 		resultIterator, err := ctx.GetStub().GetStateByPartialCompositeKey(model.AccountKey, []string{accountId})
 		if err != nil {
-			return "", fmt.Errorf("Get accountList error: %v", err)
+			return nil, fmt.Errorf("Get accountList error: %v", err)
 		}
 		defer resultIterator.Close()
 
@@ -44,15 +44,15 @@ func (s *SmartContract) QueryAccountInfor(ctx contractapi.TransactionContextInte
 		for resultIterator.HasNext() {
 			val, err := resultIterator.Next()
 			if err != nil {
-				return "", errors.New(fmt.Sprintf("get next hash error: %v", err))
+				return nil, errors.New(fmt.Sprintf("get next hash error: %v", err))
 			}
 			err = json.Unmarshal(val.GetValue(), &account)
 			if err != nil {
-				return "", errors.New(fmt.Sprintf("unmarshal error: %v", err))
+				return nil, errors.New(fmt.Sprintf("unmarshal error: %v", err))
 			}
 			accountList = append(accountList, account)
 		}
 	}
 
-	return fmt.Sprintf("%+v", accountList), nil
+	return accountList, nil
 }

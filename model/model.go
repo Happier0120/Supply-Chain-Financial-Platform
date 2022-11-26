@@ -1,5 +1,7 @@
 package model
 
+import "time"
+
 type Account struct {
 	AccountId string  `json:"accountId"` //账号ID
 	UserName  string  `json:"userName"`  //账号名称
@@ -16,6 +18,13 @@ type Ticket struct {
 type TicketPrivate struct {
 	Price     string `json:"price"`
 	FromOrder string `json:"fromOrder"`
+}
+
+// QueryResult structure used for handling result of query
+type QueryResult struct {
+	Record    Ticket
+	TxId      string    `json:"txId"`
+	Timestamp time.Time `json:"timestamp"`
 }
 
 const (
