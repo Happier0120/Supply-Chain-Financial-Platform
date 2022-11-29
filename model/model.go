@@ -12,11 +12,13 @@ type Ticket struct {
 	Type          string `json:"objectType"`
 	ID            string `json:"ticketID"`    //票据ID
 	OwnerOrgMSPID string `json:"ownerOrg"`    //票据所有者ID
+	DueDate       string `json:"duedate"`     //到期日期
+	Guarantor     string `json:"guarantor"`   //担保人
 	Description   string `json:"description"` //票据备注
 }
 
 type TicketPrivate struct {
-	Price     string `json:"price"`
+	Value     string `json:"value"`
 	FromOrder string `json:"fromOrder"`
 }
 

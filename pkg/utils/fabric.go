@@ -30,7 +30,6 @@ func SetTicketStateBasedEndorsement(ctx contractapi.TransactionContextInterface,
 	return nil
 }
 
-
 func BuildCollectionName(clientOrgID string) string {
 	return fmt.Sprintf("_implicit_org_%s", clientOrgID)
 }

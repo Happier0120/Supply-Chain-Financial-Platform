@@ -3,6 +3,7 @@ package api
 import (
 	"encoding/json"
 	"fmt"
+	"time"
 	"yh/model"
 	"yh/pkg/utils"
 
@@ -31,13 +32,13 @@ func (s *SmartContract) Init(ctx contractapi.TransactionContextInterface) ([]*mo
 	}
 	//添加账户列表
 	var accountIds = [4]string{
-		"5feceb66ffc8",
-		"6b86b273ff34",
-		"d4735e3a265e",
-		"4e07408562be",
+		"Org1MSP",
+		"Org2MSP",
+		"Org3MSP",
+		"Org4MSP",
 	}
-	var userNames = [4]string{"company_core", "company_a", "company_b", "company_c"}
-	var balances = [4]float64{10000, 0, 0, 0}
+	var userNames = [4]string{"Org1MSP", "Org2MSP", "Org3MSP", "Org4MSP"} // Org1MSP为核心组织
+	var balances = [4]float64{10000, 0, 0, 0}                             //银行初始为核心企业授信$10000
 	//初始化账号数据
 	var accountList []*model.Account
 	for i, val := range accountIds {
@@ -103,6 +104,8 @@ func (s *SmartContract) CreateTicket(ctx contractapi.TransactionContextInterface
 		Type:          ticketCollection,
 		ID:            ticketID,
 		OwnerOrgMSPID: coreOrgMSPID,
+		Guarantor:     "ICBC",
+		DueDate:       time.Now().Format("2006-01-02"),
 		Description:   description,
 	}
 	ticketList = append(ticketList, ticket)
@@ -129,7 +132,7 @@ func (s *SmartContract) CreateTicket(ctx contractapi.TransactionContextInterface
 }
 
 // transfer ticket
-func (s *SmartContract) TransferTicket(ctx contractapi.TransactionContextInterface, ticketID string, toOrgMSPID string) ([]*model.Ticket, error) {
+func (s *SmartContract) TransferTicket(ctx contractapi.TransactionContextInterface, ticketID, toOrgMSPID string) ([]*model.Ticket, error) {
 	ticketBytes, err := ctx.GetStub().GetState(ticketID)
 	if err != nil {
 		return nil, fmt.Errorf("Failed to get ticket state: %v", err)
@@ -160,6 +163,11 @@ func (s *SmartContract) TransferTicket(ctx contractapi.TransactionContextInterfa
 	if err != nil {
 		return nil, fmt.Errorf("When transfer ticket, falied to write new ticket into ledger: %v", err)
 	}
+
+	//更新账户余额
+	// if err = UpdateAccountBalance(ctx, ticketID); err != nil {
+	// 	return
+	// }
 
 	// setting endorsement, only owner can update or query private data
 	err = utils.SetTicketStateBasedEndorsement(ctx, ticketID, toOrgMSPID)
