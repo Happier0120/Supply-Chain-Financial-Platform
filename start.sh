@@ -4,7 +4,7 @@ echo "一、清理环境，重启网络并创建通道mychannel"
 ./network.sh up createChannel
 
 echo "二、安装链码"
-./network.sh deployCC -ccn chaincode01 -ccp ../../chaincode/ -ccl go -ccep "OR('Org1MSP.peer','Org2MSP.peer')"
+./network.sh deployCC -ccn chaincode01 -ccp ../../chaincode01 -ccl go -ccep "OR('Org1MSP.peer','Org2MSP.peer')"
 
 echo "三、使用or1环境"
 export PATH=${PWD}/../bin:${PWD}:$PATH

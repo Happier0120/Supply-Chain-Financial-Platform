@@ -27,9 +27,7 @@ func (s *SmartContract) Init(ctx contractapi.TransactionContextInterface) ([]*mo
 	if err != nil {
 		return nil, fmt.Errorf("init coreOrgID failed: %v", err)
 	}
-	if err = ctx.GetStub().PutState(coreOrgMSPID, []byte(coreOrgMSPID)); err != nil {
-		return nil, fmt.Errorf("failed to put core org MSPID: %v", err)
-	}
+
 	//添加账户列表
 	var accountIds = [4]string{
 		"Org1MSP",
@@ -38,7 +36,8 @@ func (s *SmartContract) Init(ctx contractapi.TransactionContextInterface) ([]*mo
 		"Org4MSP",
 	}
 	var userNames = [4]string{"Org1MSP", "Org2MSP", "Org3MSP", "Org4MSP"} // Org1MSP为核心组织
-	var balances = [4]float64{10000, 0, 0, 0}                             //银行初始为核心企业授信$10000
+	var balances = [4]float64{10000, 0, 0, 0}                             // 银行初始为核心企业授信 $10000
+
 	//初始化账号数据
 	var accountList []*model.Account
 	for i, val := range accountIds {
@@ -48,17 +47,16 @@ func (s *SmartContract) Init(ctx contractapi.TransactionContextInterface) ([]*mo
 			Balance:   balances[i],
 		}
 		accountList = append(accountList, account)
+
 		// 写入账本
 		accountBytes, err := json.Marshal(account)
 		if err != nil {
 			return nil, fmt.Errorf("failed to marshal account: %v", err)
 		}
-
 		accountKey, err := ctx.GetStub().CreateCompositeKey(model.AccountKey, []string{account.AccountId})
 		if err != nil {
 			return nil, fmt.Errorf("Failed to create composite key: %v", err)
 		}
-
 		err = ctx.GetStub().PutState(accountKey, accountBytes)
 		if err != nil {
 			return nil, fmt.Errorf("Failed to write accountlists into ledger: %v", err)
@@ -163,12 +161,7 @@ func (s *SmartContract) TransferTicket(ctx contractapi.TransactionContextInterfa
 		return nil, fmt.Errorf("When transfer ticket, falied to write new ticket into ledger: %v", err)
 	}
 
-	//更新账户余额
-	// if err = s.UpdateAccountBalance(ctx, clientOrgID, toOrgMSPID, ticketID); err != nil {
-	// 	return nil, err
-	// }
-
-	// setting endorsement, only owner can update or query private data
+	// 更新账户余额
 	err = utils.SetTicketStateBasedEndorsement(ctx, ticketID, toOrgMSPID)
 	if err != nil {
 		return nil, fmt.Errorf("failed to set ticket endorsement: %v", err)
