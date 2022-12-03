@@ -19,11 +19,13 @@ echo "四、初始化链码'"
 peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --tls --cafile "${PWD}/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem" -C mychannel -n chaincode01 -c '{"function":"Init","Args":[]}'
 sleep 5
 echo "当前账户列表"
-peer chaincode query -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --tls --cafile "${PWD}/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem" -C mychannel -n chaincode01 -c '{"function":"QueryAccountInfor","Args":[""]}'
+peer chaincode query -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --tls --cafile "${PWD}/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem" -C mychannel -n chaincode01 -c '{"function":"QueryAccountaById","Args":[""]}'
 
 echo "五、创建一个资产"
 export Ticket_PROPERTIES=$(echo -n "{\"price\":\"101\",\"fromOrder\":\"ccccit\"}" | base64 | tr -d \\n)
 peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --tls --cafile "${PWD}/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem" -C mychannel -n chaincode01 -c '{"function":"CreateTicket","Args":["ticket01", "A new ticket for Org1MSP"]}' --transient "{\"ticket_properties\":\"$Ticket_PROPERTIES\"}"
+sleep 5
+peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --tls --cafile "${PWD}/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem" -C mychannel -n chaincode01 -c '{"function":"CreateTicket","Args":["ticket02", "A new ticket for Org1MSP"]}' --transient "{\"ticket_properties\":\"$Ticket_PROPERTIES\"}"
 sleep 5
 
 echo "六、查询票据"
@@ -31,6 +33,8 @@ echo "6.1 票据公开数据"
 peer chaincode query -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --tls --cafile "${PWD}/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem" -C mychannel -n chaincode01 -c '{"function":"QueryTicket","Args":["ticket01"]}'
 echo "6.2 票据隐私数据"
 peer chaincode query -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --tls --cafile "${PWD}/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem" -C mychannel -n chaincode01 -c '{"function":"ReadTicketPrivateProperties","Args":["ticket01"]}'
+echo "6.3 查询所有数据"
+peer chaincode query -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --tls --cafile "${PWD}/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem" -C mychannel -n chaincode01 -c '{"function":"GetAllTicket","Args":[""]}'
 
 echo "七、 更改票据备注"
 peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --tls --cafile "${PWD}/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem" -C mychannel -n chaincode01 -c '{"function":"ChangeDescription","Args":["ticket01","new01"]}'

@@ -127,7 +127,6 @@ func (s *SmartContract) CreateTicket(ctx contractapi.TransactionContextInterface
 	if err = ctx.GetStub().PutPrivateData(collection, ticketID, transientJSON); err != nil {
 		return nil, fmt.Errorf("failed to put transientJSON to private data: %v", err)
 	}
-
 	return ticketList, nil
 }
 
@@ -165,8 +164,8 @@ func (s *SmartContract) TransferTicket(ctx contractapi.TransactionContextInterfa
 	}
 
 	//更新账户余额
-	// if err = UpdateAccountBalance(ctx, ticketID); err != nil {
-	// 	return
+	// if err = s.UpdateAccountBalance(ctx, clientOrgID, toOrgMSPID, ticketID); err != nil {
+	// 	return nil, err
 	// }
 
 	// setting endorsement, only owner can update or query private data

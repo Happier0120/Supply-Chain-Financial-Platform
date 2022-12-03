@@ -118,7 +118,10 @@ func (s *SmartContract) QueryTicketHistory(ctx contractapi.TransactionContextInt
 }
 
 // 查询所有公开数据
-func (s *SmartContract) GetAllTicket(ctx contractapi.TransactionContextInterface) ([]*model.Ticket, error) {
+func (s *SmartContract) GetAllTicket(ctx contractapi.TransactionContextInterface) ([]string, error) {
+
+	var ticketList []string
+	var ticket string
 
 	resultsIterator, err := ctx.GetStub().GetStateByRange("", "")
 	if err != nil {
@@ -127,15 +130,13 @@ func (s *SmartContract) GetAllTicket(ctx contractapi.TransactionContextInterface
 	}
 	defer resultsIterator.Close()
 
-	var ticketList []*model.Ticket
 	for resultsIterator.HasNext() {
-		queryResponse, err := resultsIterator.Next()
+		val, err := resultsIterator.Next()
 		if err != nil {
 			return nil, fmt.Errorf("Failed to get Iterator next: %v", err)
 		}
 
-		var ticket *model.Ticket
-		err = json.Unmarshal(queryResponse.Value, &ticket)
+		ticket = string(val.GetValue())
 		if err != nil {
 			return nil, fmt.Errorf("Failed to unmarshal ticket: %v", err)
 		}
