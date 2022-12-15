@@ -11,10 +11,10 @@ import (
 )
 
 // 通过AccountId获取账户
-func (s *SmartContract) QueryAccountaById(ctx contractapi.TransactionContextInterface, accountId string) ([]*model.Account, error) {
-	var accountList []*model.Account
-	var account *model.Account
-
+func (s *SmartContract) QueryAccountaById(ctx contractapi.TransactionContextInterface, accountId string) ([]model.Account, error) {
+	var accountList []model.Account
+	var account model.Account
+	// 输入参数为空则返回全部账户
 	if accountId == "" {
 		resultIterator, err := ctx.GetStub().GetStateByPartialCompositeKey(model.AccountKey, []string{})
 		if err != nil {
@@ -22,7 +22,6 @@ func (s *SmartContract) QueryAccountaById(ctx contractapi.TransactionContextInte
 		}
 		defer resultIterator.Close()
 
-		//检查返回的数据是否为空，不为空则遍历数据，否则返回空数组
 		for resultIterator.HasNext() {
 			val, err := resultIterator.Next()
 			if err != nil {
@@ -41,7 +40,6 @@ func (s *SmartContract) QueryAccountaById(ctx contractapi.TransactionContextInte
 		}
 		defer resultIterator.Close()
 
-		//检查返回的数据是否为空，不为空则遍历数据，否则返回空数组
 		for resultIterator.HasNext() {
 			val, err := resultIterator.Next()
 			if err != nil {

@@ -68,7 +68,7 @@ func (s *SmartContract) Init(ctx contractapi.TransactionContextInterface) ([]*mo
 
 // 只有核心企业可以发行票据
 // CreateTicket只有核心企业可以调用
-func (s *SmartContract) CreateTicket(ctx contractapi.TransactionContextInterface, ticketID string, description string) ([]*model.Ticket, error) {
+func (s *SmartContract) CreateTicket(ctx contractapi.TransactionContextInterface, description string) ([]*model.Ticket, error) {
 
 	transientMap, err := ctx.GetStub().GetTransient()
 	if err != nil {
@@ -87,25 +87,28 @@ func (s *SmartContract) CreateTicket(ctx contractapi.TransactionContextInterface
 	if coreOrgMSPID != clientOrgMSPID {
 		return nil, fmt.Errorf("Only core org could create tickets: %v", err)
 	}
-	// check if ticket already exists
-	ticketAsBytes, err := ctx.GetStub().GetState(ticketID)
-	if err != nil {
-		return nil, fmt.Errorf("failed to get ticket: %v", err)
-	} else if ticketAsBytes != nil {
-		fmt.Println("Ticket already exists: " + ticketID)
-		return nil, fmt.Errorf("this ticket already exists: " + ticketID)
-	}
 
 	// submitting ticket
+	ticketID := utils.RandomString(10)
+
+	channelID := ctx.GetStub().GetChannelID()
+	txID := ctx.GetStub().GetTxID()
+	txTimestamp, _ := ctx.GetStub().GetTxTimestamp()
+
 	var ticketList []*model.Ticket
 	ticket := &model.Ticket{
 		Type:          ticketCollection,
 		ID:            ticketID,
+		ChannelID:     channelID,
+		TxID:          txID,
+		TxTimestamp:   txTimestamp.String(),
 		OwnerOrgMSPID: coreOrgMSPID,
 		Guarantor:     "ICBC",
-		DueDate:       time.Now().Format("2006-01-02"),
+		CreateTime:    time.Now().Format("2006-01-02 15:04:05"),
+		DueDate:       "2023-12-12",
 		Description:   description,
 	}
+
 	ticketList = append(ticketList, ticket)
 
 	ticketJSON, err := json.Marshal(ticket)
@@ -161,7 +164,6 @@ func (s *SmartContract) TransferTicket(ctx contractapi.TransactionContextInterfa
 		return nil, fmt.Errorf("When transfer ticket, falied to write new ticket into ledger: %v", err)
 	}
 
-	// 更新账户余额
 	err = utils.SetTicketStateBasedEndorsement(ctx, ticketID, toOrgMSPID)
 	if err != nil {
 		return nil, fmt.Errorf("failed to set ticket endorsement: %v", err)

@@ -28,11 +28,11 @@ sleep 5
 peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --tls --cafile "${PWD}/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem" -C mychannel -n chaincode01 -c '{"function":"CreateTicket","Args":["ticket02", "A new ticket for Org1MSP"]}' --transient "{\"ticket_properties\":\"$Ticket_PROPERTIES\"}"
 sleep 5
 
-echo "六、查询票据"
+echo "六、查询票据"  BpLnfgDsc2           WD8F2qNfHK
 echo "6.1 票据公开数据"
 peer chaincode query -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --tls --cafile "${PWD}/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem" -C mychannel -n chaincode01 -c '{"function":"QueryTicket","Args":["ticket01"]}'
 echo "6.2 票据隐私数据"
-peer chaincode query -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --tls --cafile "${PWD}/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem" -C mychannel -n chaincode01 -c '{"function":"ReadTicketPrivateProperties","Args":["ticket01"]}'
+peer chaincode query -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --tls --cafile "${PWD}/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem" -C mychannel -n chaincode01 -c '{"function":"ReadTicketPrivateProperties","Args":["WD8F2qNfHK"]}'
 echo "6.3 查询所有数据"
 peer chaincode query -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --tls --cafile "${PWD}/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem" -C mychannel -n chaincode01 -c '{"function":"GetAllTicket","Args":[""]}'
 
@@ -41,7 +41,7 @@ peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.exa
 sleep 5
 
 echo "八、 转让票据"
-peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --tls --cafile "${PWD}/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem" -C mychannel -n chaincode01 -c '{"function":"TransferTicket","Args":["ticket01","Org2MSP"]}' --transient "{\"ticket_properties\":\"$Ticket_PROPERTIES\"}" --peerAddresses localhost:7051 --tlsRootCertFiles "${PWD}/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt" --peerAddresses localhost:9051 --tlsRootCertFiles "${PWD}/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt"
+peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --tls --cafile "${PWD}/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem" -C mychannel -n chaincode01 -c '{"function":"TransferTicket","Args":["WD8F2qNfHK","Org2MSP"]}' --transient "{\"ticket_properties\":\"$Ticket_PROPERTIES\"}" --peerAddresses localhost:7051 --tlsRootCertFiles "${PWD}/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt" --peerAddresses localhost:9051 --tlsRootCertFiles "${PWD}/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt"
 sleep 5
 echo "转让后票据公开信息依然可查看"
 peer chaincode query -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --tls --cafile "${PWD}/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem" -C mychannel -n chaincode01 -c '{"function":"QueryTicket","Args":["ticket01"]}'
@@ -67,3 +67,5 @@ peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.exa
 
 # echo "清理环境"
 # ./network.sh down
+
+{\"objectType\":\"ticketCollection\",\"ticketID\":\"ticket01\",\"ownerOrg\":\"Org1MSP\",\"channelID\":\"mychannel\",\"txID\":\"c94ccc9554ef06f8a3c7ca4ec01746af1e4a35c54ada70e927fff483ca86b9ad\",\"txTimestamp\":\"seconds:1670338031 nanos:941528000\",\"createTime\":\"6066-126-126\",\"duedate\":\"2023-12-12\",\"guarantor\":\"ICBC\",\"description\":\"A new ticket for Org1MSP\"}","{\"objectType\":\"ticketCollection\",\"ticketID\":\"ticket02\",\"ownerOrg\":\"Org1MSP\",\"channelID\":\"mychannel\",\"txID\":\"c24467e727904fcc4e884bfcde103dae4bbb0990a705e41ad5c80ef9dcc89a3b\",\"txTimestamp\":\"seconds:1670338037 nanos:121729000\",\"createTime\":\"6066-126-126\",\"duedate\":\"2023-12-12\",\"guarantor\":\"ICBC\",\"description\":\"A new ticket for Org1MSP\"}

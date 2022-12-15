@@ -10,11 +10,15 @@ type Account struct {
 
 type Ticket struct {
 	Type          string `json:"objectType"`
-	ID            string `json:"ticketID"`    //票据ID
-	OwnerOrgMSPID string `json:"ownerOrg"`    //票据所有者ID
-	DueDate       string `json:"duedate"`     //到期日期
-	Guarantor     string `json:"guarantor"`   //担保人
-	Description   string `json:"description"` //票据备注
+	ID            string `json:"ticketID"`    // 票据ID
+	OwnerOrgMSPID string `json:"ownerOrg"`    // 票据所有者ID
+	ChannelID     string `json:"channelID"`   // 通道ID
+	TxID          string `json:"txID"`        // 交易ID
+	TxTimestamp   string `json:"txTimestamp"` // 交易时间戳
+	CreateTime    string `json:"createTime"`  // 创建日期
+	DueDate       string `json:"duedate"`     // 到期日期
+	Guarantor     string `json:"guarantor"`   // 担保人
+	Description   string `json:"description"` // 票据备注
 }
 
 type TicketPrivate struct {
