@@ -32,16 +32,17 @@ func SetTicketStateBasedEndorsement(ctx contractapi.TransactionContextInterface,
 }
 
 func BuildCollectionName(clientOrgID string) string {
-	return fmt.Sprintf("_implicit_org_%s", clientOrgID)
+	return fmt.Sprintf("private_%s", clientOrgID)
 }
 
 func GetClientOrgMSPID(ctx contractapi.TransactionContextInterface, verifyOrg bool) (string, error) {
-	clientOrgID, err := ctx.GetClientIdentity().GetMSPID()
+	// 新增编解码操作
+	orgMspId, err := ctx.GetClientIdentity().GetMSPID()
 	if err != nil {
 		return "", fmt.Errorf("failed getting client's orgID: %v", err)
 	}
 
-	return clientOrgID, nil
+	return orgMspId, nil
 }
 
 var defaultLetters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")

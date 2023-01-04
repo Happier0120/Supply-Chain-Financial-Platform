@@ -3,6 +3,7 @@ package api
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"time"
 	"yh/model"
 	"yh/pkg/utils"
@@ -62,13 +63,12 @@ func (s *SmartContract) Init(ctx contractapi.TransactionContextInterface) ([]*mo
 			return nil, fmt.Errorf("Failed to write accountlists into ledger: %v", err)
 		}
 	}
-
 	return accountList, nil
 }
 
 // 只有核心企业可以发行票据
 // CreateTicket只有核心企业可以调用
-func (s *SmartContract) CreateTicket(ctx contractapi.TransactionContextInterface, description string) ([]*model.Ticket, error) {
+func (s *SmartContract) CreateTicket(ctx contractapi.TransactionContextInterface, toOrgMSPID, description string) ([]*model.Ticket, error) {
 
 	transientMap, err := ctx.GetStub().GetTransient()
 	if err != nil {
@@ -102,7 +102,7 @@ func (s *SmartContract) CreateTicket(ctx contractapi.TransactionContextInterface
 		ChannelID:     channelID,
 		TxID:          txID,
 		TxTimestamp:   txTimestamp.String(),
-		OwnerOrgMSPID: coreOrgMSPID,
+		OwnerOrgMSPID: toOrgMSPID,
 		Guarantor:     "ICBC",
 		CreateTime:    time.Now().Format("2006-01-02 15:04:05"),
 		DueDate:       "2023-12-12",
@@ -124,10 +124,12 @@ func (s *SmartContract) CreateTicket(ctx contractapi.TransactionContextInterface
 		return nil, fmt.Errorf("failed to set ticket endorsement: %v", err)
 	}
 
-	collection := utils.BuildCollectionName(coreOrgMSPID)
+	collection := utils.BuildCollectionName(toOrgMSPID)
 	if err = ctx.GetStub().PutPrivateData(collection, ticketID, transientJSON); err != nil {
 		return nil, fmt.Errorf("failed to put transientJSON to private data: %v", err)
 	}
+	log.Printf("Submitting clientOrg is :%v, collection is: %v", coreOrgMSPID, collection)
+
 	return ticketList, nil
 }
 
