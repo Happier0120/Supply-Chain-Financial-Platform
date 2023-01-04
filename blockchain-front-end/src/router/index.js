@@ -4,6 +4,8 @@ import Login from '../views/Login.vue'
 import Dashboard from '../views/Dashboard.vue'
 import Order from '../views/Order.vue'
 
+import Test from '../components/NavMenu.vue'
+
 import TicketList from '../components/ticket/TicketList.vue'
 import IssueTicket from '../components/ticket/IssueTicket.vue'
 import TransferTicket from "../components/ticket/TransferTicket.vue"
@@ -12,6 +14,11 @@ import TraceTicket from "../components/ticket/TraceTicket.vue"
 Vue.use(VueRouter)
 
 const routes = [
+  {
+    path: '/test',
+    name: 'Test',
+    component: Test,
+  },
   {
     path: '/',
     name: 'Login',

@@ -3,14 +3,17 @@
     <v-app-bar flat app dark color="deep-purple">
       <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
 
-      <v-toolbar-title>中交智运“区块链+网络货运”平台</v-toolbar-title>
+      <v-toolbar-title>中交智运基于电子票据的SCF供应链金融平台</v-toolbar-title>
     </v-app-bar>
 
-    <v-navigation-drawer v-model="drawer" absolute temporary>
+    <v-navigation-drawer v-model="drawer" absolute permanent>
       <v-list>
         <v-list-item>
           <v-list-item-avatar class="mx-auto">
-            <v-img aspect-ration="0.3" src="../assets/ZJZY-logo.png"></v-img>
+            <v-img aspect-ration="0.6" 
+              src="../assets/ZJZY-logo.png"
+            >
+            </v-img>
           </v-list-item-avatar>
         </v-list-item>
 
@@ -93,3 +96,9 @@ export default {
   }),
 };
 </script>
+
+<style lang="scss" scoped>
+.mx-auto{
+  margin-top: 80px;
+}
+</style>

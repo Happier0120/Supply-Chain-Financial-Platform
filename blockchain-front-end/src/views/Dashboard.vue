@@ -1,7 +1,6 @@
 <template>
   <div class="main-box">
     <div class="bottom-box">
-
       <div class="wea-info">
         <div class="wea-type-group" style="margin: auto">
           <div id="app">
@@ -25,7 +24,6 @@
                     >操作按钮</el-button
                   > -->
             </el-card>
-
             <el-card class="box-card">
               <div>{{ "通道数" }}</div>
 
@@ -47,7 +45,6 @@
                     >操作按钮</el-button
                   > -->
             </el-card>
-
             <el-card class="box-card">
               <div>{{ "节点" }}</div>
 
@@ -68,7 +65,6 @@
                     >操作按钮</el-button
                   > -->
             </el-card>
-
             <el-card class="box-card">
               <div>{{ "交易" }}</div>
 
@@ -89,7 +85,6 @@
                     >操作按钮</el-button
                   > -->
             </el-card>
-
             <el-card class="box-card2">
               <div>{{ "今日开立票据" }}</div>
 
@@ -105,7 +100,6 @@
                 {{this.infoData2.todayTicketsNumber}}
               </div>
             </el-card>
-
             <el-card class="box-card2">
               <div>{{ "今日开立金额" }}</div>
 
@@ -121,7 +115,6 @@
               {{this.infoData2.todayPrice}}
               </div>
             </el-card>
-
             <el-card class="box-card2">
               <div>{{ "总开立票据" }}</div>
 
@@ -136,13 +129,7 @@
               >
               {{this.infoData2.todayTicketsNumber}}
               </div>
-
-              <!-- 
-<el-button style="float: right; padding: 3px 0" type="text"
-  >操作按钮</el-button
-> -->
             </el-card>
-
             <el-card class="box-card2">
               <div>{{ "总开立金额" }}</div>
 
@@ -158,84 +145,78 @@
               {{this.infoData2.price}}
               </div>
             </el-card>
-              <el-card class="box-card2">
-                <div>{{ "今日到期票据" }}</div>
-
-                <div
-                  style="
-                    font-size: 40px;
-                    color: black;
-                    margin-top: 5px;
-                    margin-bottom: 5px;
-                  "
-                  v-if="this.infoData2"
-                >
-                {{this.infoData2.todayExpiredTicketsNumber}}
-                </div>
-
-
-              </el-card>
-
-              <el-card class="box-card2">
-                <div>{{ "今日兑付金额" }}</div>
-
-                <div
-                  style="
-                    font-size: 40px;
-                    color: black;
-                    margin-top: 5px;
-                    margin-bottom: 5px;
-                  "
-                  v-if="this.infoData2"
-                >
-                {{this.infoData2.todayPrice}}
-                </div>
-
-              </el-card>
-
-              <el-card class="box-card2">
-                <div>{{ "总到期票据" }}</div>
-
-                <div
-                  style="
-                    font-size: 40px;
-                    color: black;
-                    margin-top: 5px;
-                    margin-bottom: 5px;
-                  "
-                  v-if="this.infoData2"
-                >
-                {{this.infoData2.expiredTicketsNumber}}
-                </div>
+            <el-card class="box-card2">
+              <div>{{ "今日到期票据" }}</div>
+              <div
+                style="
+                  font-size: 40px;
+                  color: black;
+                  margin-top: 5px;
+                  margin-bottom: 5px;
+                "
+                v-if="this.infoData2"
+              >
+              {{this.infoData2.todayExpiredTicketsNumber}}
+              </div>
 
 
-              </el-card>
+            </el-card>
+            <el-card class="box-card2">
+              <div>{{ "今日兑付金额" }}</div>
 
-              <el-card class="box-card2">
-                <div>{{ "总兑付金额" }}</div>
+              <div
+                style="
+                  font-size: 40px;
+                  color: black;
+                  margin-top: 5px;
+                  margin-bottom: 5px;
+                "
+                v-if="this.infoData2"
+              >
+              {{this.infoData2.todayPrice}}
+              </div>
 
-                <div
-                  style="
-                    font-size: 40px;
-                    color: black;
-                    margin-top: 5px;
-                    margin-bottom: 5px;
-                  "
-                  v-if="this.infoData2"
-                >
-                {{this.infoData2.price}}
-                </div>
+            </el-card>
+            <el-card class="box-card2">
+              <div>{{ "总到期票据" }}</div>
+
+              <div
+                style="
+                  font-size: 40px;
+                  color: black;
+                  margin-top: 5px;
+                  margin-bottom: 5px;
+                "
+                v-if="this.infoData2"
+              >
+              {{this.infoData2.expiredTicketsNumber}}
+              </div>
 
 
-              </el-card>
+            </el-card>
+            <el-card class="box-card2">
+              <div>{{ "总兑付金额" }}</div>
 
-            <!-- </el-card> -->
+              <div
+                style="
+                  font-size: 40px;
+                  color: black;
+                  margin-top: 5px;
+                  margin-bottom: 5px;
+                "
+                v-if="this.infoData2"
+              >
+              {{this.infoData2.price}}
+              </div>
 
+
+            </el-card>
           </div>
         </div>
       </div>
     </div>
   </div>
+  
 </template>
 
 <script>
@@ -319,7 +300,8 @@ export default {
     }
   }
   .bottom-box {
-    margin-top: 20px;
+    margin-top: 0px;
+    margin-left: 200px;
     .wea-type-group {
       margin-bottom: 50px;
       .type-name {
