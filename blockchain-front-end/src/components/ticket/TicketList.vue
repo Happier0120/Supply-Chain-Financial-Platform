@@ -31,12 +31,13 @@
         ></el-input>
       </div>
       <el-button type="primary" @click="handleChange">查 询</el-button>
-      <div class="crate-order">
+      <!-- <div class="crate-order">
         <el-button type="primary" @click="clickCreate">开立票据</el-button>
-      </div>
+      </div> -->
     </div>
-    <div style="margin-top:20px">
 
+    
+    <div style="margin-top:20px">
       <el-table :data="tableData" style="width: 100%">
         <!-- <el-table-column
           fixed="left"
@@ -95,6 +96,7 @@
           width="200"
         >
         </el-table-column>
+
         <el-table-column fixed="right" label="操作">
           <template slot-scope="scope">
             <el-button
@@ -104,12 +106,6 @@
             >
               详情
             </el-button>
-            <!-- <el-button @click="editButton" type="text" size="small">
-              编辑
-            </el-button>
-            <el-button @click="removeButton" type="text" size="small">
-              删除
-            </el-button> -->
           </template>
         </el-table-column>
       </el-table>
@@ -129,10 +125,10 @@ export default {
   },
   methods: {
     handleChange() {},
-    clickCreate() {
-      console.log();
-      this.$router.push({ path: `/order/createOrder`});
-    },
+    // clickCreate() {
+    //   console.log();
+    //   this.$router.push({ path: `/order/createOrder`});
+    // },
     detailButton(row) {
       //跳转到详情
       console.log("row:",row);
@@ -147,7 +143,7 @@ export default {
     },
   },
   mounted() {
-    this.$axios.get("/console/queryTickets").then((data) => {
+    this.$axios.get("/console/queryNotExpiredTickets").then((data) => {
       console.log("data:", data.data.data);
       this.tableData = data.data.data;
     });

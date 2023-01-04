@@ -60,27 +60,27 @@ export default {
     drawer: false,
     items: [
     {
-        action: "mdi-silverware-fork-knife",
+        action: "el-icon-s-home",
         route: "/bill",
-        items: [
-          { subtitle: "首页", route: "/bill/createBill" },
-        ],
+        // items: [
+        //   { subtitle: "首页", route: "/bill/createBill" },
+        // ],
         title: "首页",
       },
       {
-        action: "mdi-silverware-fork-knife",
+        action: "el-icon-s-ticket",
         route: "/order",
         items: [
-          { subtitle: "票据列表", route: "/order/OrderList" },
-          { subtitle: "开立票据", route: "/order/createOrder" },
-          // { subtitle: "编辑订单", route: "/order/editOrder" },
-          // { subtitle: "查询票据", route: "/order/queryOrder" },
+          { subtitle: "票据列表", route: "/ticket/ticketList" },
+          { subtitle: "开立票据", route: "/ticket/issueticket" },
+          // { subtitle: "转让票据", route: "/ticket/transferticket" },
+          { subtitle: "票据溯源", route: "/ticket/traceticket" },
         ],
         title: "未到期票据",
       },
 
       {
-        action: "mdi-silverware-fork-knife",
+        action: "el-icon-s-ticket",
         route: "/trans",
         items: [
           { subtitle: "票据列表", route: "/trans/createTrans" },

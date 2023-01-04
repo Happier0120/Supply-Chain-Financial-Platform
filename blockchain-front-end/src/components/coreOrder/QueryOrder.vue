@@ -1,25 +1,5 @@
 <template>
   <div class="main-box">
-    <!-- <div class="top-box">
-      <div class="pic"></div>
-      <div class="info">
-        <div class="name">
-          {{ item.name }}
-          <el-tag
-            style="margin-left: 100px"
-            :type="item.statu ? 'success' : 'info'"
-            effect="dark"
-          >
-            {{ item.statu ? "在 线" : "离 线" }}
-          </el-tag>
-        </div>
-        <div>
-          <span class="info-item">编号: {{ item.wea_id }}</span>
-          <span class="info-item">物联网卡号: {{ item.sensor_card }}</span>
-          <span class="info-item">所属地块: {{ item.greenhouse }}</span>
-        </div>
-      </div>
-    </div> -->
     <div class="bottom-box">
       <!-- 票据详情所在界面 -->
       <div class="wea-info">

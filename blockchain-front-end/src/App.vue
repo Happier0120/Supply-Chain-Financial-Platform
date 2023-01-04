@@ -1,7 +1,10 @@
 <template>
   <v-app>
-    <Navbar v-show= "this.$Navbar_show" >
+    <Navbar v-show= "$store.state.navbar_show" >
     </Navbar>
+    <Navbar2 v-show= "$store.state.navbar2_show" >
+    </Navbar2>
+    <SlideView />
     <v-main>
       <router-view />
     </v-main>
@@ -10,16 +13,14 @@
 
 <script>
 import Navbar from "@/components/Navbar";
-import Navbar2 from "@/components/Navbar"
-
+import Navbar2 from "@/components/Navbar2"
 
 export default {
   name: "App",
-  components: { Navbar },
+  components: { Navbar,Navbar2},
 
   data() {
     return {
-      Navbar_show:this.$Navbar_show
     };
   },
 };

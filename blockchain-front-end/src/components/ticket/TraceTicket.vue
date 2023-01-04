@@ -1,32 +1,24 @@
 <template>
   <div class="main-box">
-    <!-- <div class="top-box">
-      <div class="pic"></div>
-      <div class="info">
-        <div class="name">
-          {{ item.name }}
-          <el-tag
-            style="margin-left: 100px"
-            :type="item.statu ? 'success' : 'info'"
-            effect="dark"
-          >
-            {{ item.statu ? "在 线" : "离 线" }}
-          </el-tag>
-        </div>
-        <div>
-          <span class="info-item">编号: {{ item.wea_id }}</span>
-          <span class="info-item">物联网卡号: {{ item.sensor_card }}</span>
-          <span class="info-item">所属地块: {{ item.greenhouse }}</span>
-        </div>
-      </div>
-    </div> -->
     <div class="bottom-box">
-      <!-- <el-empty
-        v-if="Object.keys(infoData).length == 0"
-        description="暂无数据"
-      ></el-empty> -->
-      <!-- <div v-else class="wea-info"></div> -->
       <div class="wea-info">
+        <el-row>
+          <el-col >
+              <div class="query-box">
+                票据编号
+                <el-input
+                  class="query-input"
+                  v-model="prodNumber"
+                  placeholder="请输入待溯源票据编号"
+                  @input="handleChange"
+                ></el-input>
+              </div> 
+              <el-button type="primary" @click="handleChange"> 开始溯源</el-button>
+          </el-col>
+         
+        </el-row>
+        
+
         <div class="wea-type-group">
           <div class="type-info">
             <span>票据编号: {{ infoData.billCode }} </span>
@@ -85,6 +77,7 @@
     </div>
   </div>
 </template>
+
 <script>
 export default {
   data() {
@@ -111,7 +104,25 @@ export default {
   },
 };
 </script>
+
 <style lang="scss" scoped>
+.query-box {
+  float: left;
+  margin-top: 0px;
+}
+.query-item {
+  float: left;
+  width: 200px;
+  margin-left: 0px;
+  .query-input {
+    width: 100px;
+  }
+}
+.el-input {
+  display: inline-block;
+  width: 200px;
+  margin-left: 20px;
+}
 .main-box {
   padding-left: 50px;
   .top-box {
