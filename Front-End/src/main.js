@@ -15,9 +15,6 @@ Vue.use(Element)
 
 Vue.config.productionTip = false
 
-Vue.prototype.$Navbar_show = false  //控制侧边栏的展示与否，这边设置全局变量，然后APP.vue界面进行控制
-Vue.prototype.$Navbar2_show = false
-
 new Vue({
   router,
   store,

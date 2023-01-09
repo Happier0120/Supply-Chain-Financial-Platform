@@ -1,5 +1,5 @@
   <template>
-  <div>
+  <div class="page">
     <div class="query-box">
       <div class="query-item">
         收单企业:
@@ -51,49 +51,49 @@
           fixed="left"
           prop="ticketID"
           label="票据编号"
-          width="250"
+          width="200"
         >
         </el-table-column>
         <el-table-column
           fixed="left"
           prop="guarantor"
           label="担保机构"
-          width="250"
+          width="200"
         >
         </el-table-column>
          <el-table-column
           fixed="left"
           prop="price"
           label="票据金额"
-          width="250"
+          width="200"
         >
         </el-table-column>
         <el-table-column
           fixed="left"
           prop="ownerOrg"
           label="票据接收方"
-          width="250"
+          width="200"
         >
         </el-table-column>
         <el-table-column
           fixed="left"
           prop="createTime"
           label="开单日期"
-          width="250"
+          width="200"
         >
         </el-table-column>
         <el-table-column
           fixed="left"
           prop="duedate"
           label="自动兑付日期"
-          width="250"
+          width="200"
         >
         </el-table-column>
         <el-table-column
           fixed="left"
           prop="description"
           label="备注"
-          width="200"
+          width="250"
         >
         </el-table-column>
 
@@ -174,5 +174,8 @@ export default {
   margin-left: 20px;
   margin-top: 20px;
   margin-bottom: 20px;
+}
+.page {
+  margin-left: 280px;
 }
 </style>

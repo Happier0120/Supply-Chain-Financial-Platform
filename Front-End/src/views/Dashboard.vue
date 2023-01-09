@@ -215,12 +215,21 @@
         </div>
       </div>
     </div>
+    <div class="block-index">
+       <block-index></block-index>
+    </div>
+
   </div>
   
 </template>
 
 <script>
+import Test from '../components/test.vue'
+
 export default {
+  components: { 
+     'block-index': Test,
+   },
   data() {
     return {
       infoData: {},
@@ -351,5 +360,8 @@ export default {
       }
     }
   }
+}
+.block-index {
+  padding-top: 550px;
 }
 </style>

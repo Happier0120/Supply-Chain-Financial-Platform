@@ -28,7 +28,7 @@
           </v-list-item-action>
         </v-list-item>
       </v-list>
-      
+
       <v-list nav dense>
         <v-list-group
           v-for="item in items"
@@ -65,15 +65,15 @@ export default {
     items: [
     {
         action: "el-icon-s-home",
-        route: "/bill",
-        // items: [
-        //   { subtitle: "首页", route: "/bill/createBill" },
-        // ],
+        route: "/dashboard",
+        items: [
+          { subtitle: "核心企业首页", route: "/dashboard" },
+        ],
         title: "首页",
       },
       {
         action: "el-icon-s-ticket",
-        route: "/order",
+        route: "/ticket",
         items: [
           { subtitle: "票据列表", route: "/ticket/ticketList" },
           { subtitle: "开立票据", route: "/ticket/issueticket" },

@@ -5,7 +5,7 @@
         <el-row>
           <el-col >
               <div class="query-box">
-                票据编号
+               编号
                 <el-input
                   class="query-input"
                   v-model="prodNumber"
@@ -125,6 +125,7 @@ export default {
 }
 .main-box {
   padding-left: 50px;
+  margin-left: 280px;
   .top-box {
     //   padding-left: 40px;
     &::after {

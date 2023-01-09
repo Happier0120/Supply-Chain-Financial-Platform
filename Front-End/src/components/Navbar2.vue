@@ -6,7 +6,7 @@
       <v-toolbar-title>中交智运“区块链+网络货运”平台</v-toolbar-title>
     </v-app-bar>
 
-    <v-navigation-drawer v-model="drawer" absolute temporary>
+    <v-navigation-drawer v-model="drawer" absolute permanent>
       <v-list>
         <v-list-item>
           <v-list-item-avatar class="mx-auto">
@@ -60,16 +60,15 @@ export default {
     drawer: false,
     items: [
     {
-        action: "mdi-silverware-fork-knife",
-        route: "/bill",
+        action: "el-icon-s-home",
+        route: "/dashboard",
         items: [
-          { subtitle: "运输企业首页", route: "/bill/editBill" },
         ],
         title: "首页",
       },
       {
-        action: "mdi-silverware-fork-knife",
-        route: "/order",
+        action: "el-icon-s-ticket",
+        route: "/ticket",
         items: [
           { subtitle: "票据列表", route: "/ticket/ticketList" },
           // { subtitle: "开立票据", route: "/ticket/issueticket" },
@@ -79,7 +78,7 @@ export default {
         title: "未到期票据",
       },
       {
-        action: "mdi-silverware-fork-knife",
+        action: "el-icon-s-ticket",
         route: "/trans",
         items: [
           { subtitle: "票据列表", route: "/trans/createTrans" },

@@ -1,18 +1,12 @@
 <template>
   <v-app>
-    <v-container>
-      <Navbar v-show= "$store.state.navbar_show" >
-      </Navbar>
-      <Navbar2 v-show= "$store.state.navbar2_show" >
-      </Navbar2>
-    </v-container>
-
+    <Navbar v-show= "$store.state.navbar_show" >
+    </Navbar>
+    <Navbar2 v-show= "$store.state.navbar2_show" >
+    </Navbar2>
     <v-main>
-      <v-container fluid>
         <router-view />
-      </v-container>
     </v-main>
-
   </v-app>
 </template>
 

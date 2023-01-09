@@ -1,28 +1,30 @@
 <template>
-  <v-container>
-    <h1>转让票据</h1>
-    <el-form :label-position="labelPosition" label-width="80px" :model="formLabelAlign">
-      <el-row :gutter="10">
-        <el-col :span="8">
-          <el-form-item label="票据编号">
-            <el-input v-model="ticketID"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="10">
-        <el-col :span="8">
-          <el-form-item label="接收组织">
-            <el-input v-model="toOrgMSPID"></el-input>
-          </el-form-item>
-        </el-col>  
-      </el-row>
-    </el-form>
-    <v-container fluid class="pa-0">
-      <div class="text-center my-2">
-        <v-btn color="green" dark large @click="clickTransfer"> 确认转让 </v-btn>
-      </div>
-    </v-container>
-  </v-container>
+  <div class="main-page">
+      <v-container>
+        <h1>转让票据</h1>
+        <el-form :label-position="labelPosition" label-width="80px" :model="formLabelAlign">
+          <el-row :gutter="10">
+            <el-col :span="8">
+              <el-form-item label="票据编号">
+                <el-input v-model="ticketID"></el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row :gutter="10">
+            <el-col :span="8">
+              <el-form-item label="接收组织">
+                <el-input v-model="toOrgMSPID"></el-input>
+              </el-form-item>
+            </el-col>  
+          </el-row>
+        </el-form>
+        <v-container fluid class="pa-0">
+          <div class="text-center my-2">
+            <v-btn color="green" dark large @click="clickTransfer"> 确认转让 </v-btn>
+          </div>
+        </v-container>
+      </v-container>
+  </div> 
 </template>
 
 <script>
@@ -62,6 +64,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.main-page {
+  margin-left: 280px;
+}
 .input{
   margin-top: 30px;
 }
