@@ -1,5 +1,11 @@
   <template>
   <div class="page">
+    <div>
+      <v-breadcrumbs
+        :items="items"
+        large
+      ></v-breadcrumbs>
+    </div>
     <div class="query-box">
       <div class="query-item">
         收单企业:
@@ -35,8 +41,6 @@
         <el-button type="primary" @click="clickCreate">开立票据</el-button>
       </div> -->
     </div>
-
-    
     <div style="margin-top:20px">
       <el-table :data="tableData" style="width: 100%">
         <!-- <el-table-column
@@ -121,6 +125,23 @@ export default {
       prodName: "",
       createTime: "",
       prodNumber: "",
+      items: [
+        {
+          text: '首页',
+          disabled: true,
+          href: 'dashboard',
+        },
+        {
+          text: '未到期票据',
+          disabled: true,
+          href: 'breadcrumbs_link_1',
+        },
+        {
+          text: '票据列表',
+          disabled: true,
+          href: 'breadcrumbs_link_2',
+        },
+      ],
     };
   },
   methods: {
@@ -176,6 +197,6 @@ export default {
   margin-bottom: 20px;
 }
 .page {
-  margin-left: 280px;
+  margin-left: 260px;
 }
 </style>

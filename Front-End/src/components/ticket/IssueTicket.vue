@@ -130,9 +130,9 @@ export default {
 
 }
 .crate-order{
-  margin-top: 50px;
+  margin-top: 30px;
 }
 .page {
-  margin-left: 280px;
+  margin-left: 210px;
 }
 </style>

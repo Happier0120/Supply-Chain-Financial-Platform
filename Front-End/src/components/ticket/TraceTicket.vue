@@ -1,6 +1,12 @@
 <template>
   <div class="main-box">
     <div class="bottom-box">
+      <div>
+        <v-breadcrumbs
+          :items="items"
+          large
+        ></v-breadcrumbs>
+      </div>
       <div class="wea-info">
         <el-row>
           <el-col >
@@ -83,6 +89,23 @@ export default {
   data() {
     return {
       infoData: {},
+      items: [
+        {
+          text: '首页',
+          disabled: true,
+          href: 'dashboard',
+        },
+        {
+          text: '未到期票据',
+          disabled: true,
+          href: 'breadcrumbs_link_1',
+        },
+        {
+          text: '票据溯源',
+          disabled: true,
+          href: 'breadcrumbs_link_2',
+        },
+      ],
     };
   },
   created() {
