@@ -31,12 +31,12 @@ func (s *SmartContract) Init(ctx contractapi.TransactionContextInterface) ([]*mo
 
 	//添加账户列表
 	var accountIds = [4]string{
-		"Org1MSP",
-		"Org2MSP",
-		"Org3MSP",
+		"org1",
+		"org2",
+		"org3",
 	}
-	var userNames = [4]string{"Org1MSP", "Org2MSP", "Org3MSP"} // Org1MSP为核心组织
-	var balances = [4]float64{10000, 0, 0}                     // 银行初始为核心企业授信 $10000
+	var userNames = [4]string{"org1", "org2", "org3"} // Org1MSP为核心组织
+	var balances = [4]float64{10000, 0, 0}            // 银行初始为核心企业授信 $10000
 
 	//初始化账号数据
 	var accountList []*model.Account
