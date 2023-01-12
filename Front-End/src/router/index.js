@@ -9,9 +9,16 @@ import IssueTicket from '../components/ticket/IssueTicket.vue'
 import TransferTicket from "../components/ticket/TransferTicket.vue"
 import TraceTicket from "../components/ticket/TraceTicket.vue"
 
+import Test from '../components/HelloWorld.vue'
+
 Vue.use(VueRouter)
 
 const routes = [
+  {
+    path: '/test',
+    name: 'Test',
+    component: Test,
+  },
   {
     path: '/',
     name: 'Login',

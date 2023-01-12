@@ -34,10 +34,9 @@ func (s *SmartContract) Init(ctx contractapi.TransactionContextInterface) ([]*mo
 		"Org1MSP",
 		"Org2MSP",
 		"Org3MSP",
-		"Org4MSP",
 	}
-	var userNames = [4]string{"Org1MSP", "Org2MSP", "Org3MSP", "Org4MSP"} // Org1MSP为核心组织
-	var balances = [4]float64{10000, 0, 0, 0}                             // 银行初始为核心企业授信 $10000
+	var userNames = [4]string{"Org1MSP", "Org2MSP", "Org3MSP"} // Org1MSP为核心组织
+	var balances = [4]float64{10000, 0, 0}                     // 银行初始为核心企业授信 $10000
 
 	//初始化账号数据
 	var accountList []*model.Account
@@ -116,11 +115,11 @@ func (s *SmartContract) CreateTicket(ctx contractapi.TransactionContextInterface
 		return nil, fmt.Errorf("failed to marshal ticket into JSON: %v", err)
 	}
 
-	if err = ctx.GetStub().PutState(ticketID, ticketJSON); err != nil {
-		return nil, fmt.Errorf("failed to put ticket state: %v", err)
+	if err = ctx.GetStub().PutState(ticket.ID, ticketJSON); err != nil {
+		return nil, fmt.Errorf("failed to put ticket to public data: %v", err)
 	}
 	// setting endorsement, only owner can update or query private data
-	if err = utils.SetTicketStateBasedEndorsement(ctx, ticket.ID, coreOrgMSPID); err != nil {
+	if err = utils.SetTicketStateBasedEndorsement(ctx, ticket.ID, toOrgMSPID); err != nil {
 		return nil, fmt.Errorf("failed to set ticket endorsement: %v", err)
 	}
 

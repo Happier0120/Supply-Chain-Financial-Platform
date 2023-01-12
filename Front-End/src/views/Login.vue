@@ -75,6 +75,7 @@ export default {
                     // return false;
                     alert('运输企业登录成功');
                     this.$store.commit("changeNavbar2")
+
                     this.$router.push({ path: `/dashboard`,query:{id:1}});
                     console.log(" this.$Navbar2_show:", this.$store.state.navbar2_show);
 

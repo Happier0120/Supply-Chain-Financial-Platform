@@ -1,14 +1,5 @@
 [
   {
-    "name": "ticketCollection",
-    "policy": "OR('Org1MSP.member', 'Org2MSP.member')",
-    "requiredPeerCount": 1,
-    "maxPeerCount": 1,
-    "blockToLive": 0,
-    "memberOnlyRead": true,
-    "memberOnlyWrite": true
-  },
-  {
     "name": "private_Org1MSP",
     "policy": "OR('Org1MSP.member')",
     "requiredPeerCount": 0,
@@ -22,14 +13,26 @@
   },
   {
     "name": "private_Org2MSP",
-    "policy": "OR('Org2MSP.member')",
+    "policy": "OR('Org1MSP.member', 'Org2MSP.member')",
     "requiredPeerCount": 0,
     "maxPeerCount": 1,
     "blockToLive": 0,
     "memberOnlyRead": true,
     "memberOnlyWrite": false,
     "endorsementPolicy": {
-      "signaturePolicy": "OR('Org2MSP.member')"
+      "signaturePolicy": "OR('Org2MSP.member','Org1MSP.member')"
+    }
+  },
+  {
+    "name": "private_Org3MSP",
+    "policy": "OR('Org1MSP.member', 'Org3MSP.member')",
+    "requiredPeerCount": 0,
+    "maxPeerCount": 1,
+    "blockToLive": 0,
+    "memberOnlyRead": true,
+    "memberOnlyWrite": false,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('Org3MSP.member','Org1MSP.member')"
     }
   }
 ]
