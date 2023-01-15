@@ -3,7 +3,6 @@ package api
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"time"
 	"yh/model"
 	"yh/pkg/utils"
@@ -30,13 +29,13 @@ func (s *SmartContract) Init(ctx contractapi.TransactionContextInterface) ([]*mo
 	}
 
 	//添加账户列表
-	var accountIds = [4]string{
+	var accountIds = [3]string{
 		"org1",
 		"org2",
 		"org3",
 	}
-	var userNames = [4]string{"org1", "org2", "org3"} // Org1MSP为核心组织
-	var balances = [4]float64{10000, 0, 0}            // 银行初始为核心企业授信 $10000
+	var userNames = [3]string{"org1", "org2", "org3"} // Org1MSP为核心组织
+	var balances = [3]float64{10000, 0, 0}            // 银行初始为核心企业授信 $10000
 
 	//初始化账号数据
 	var accountList []*model.Account
@@ -67,7 +66,7 @@ func (s *SmartContract) Init(ctx contractapi.TransactionContextInterface) ([]*mo
 
 // 只有核心企业可以发行票据
 // CreateTicket只有核心企业可以调用
-func (s *SmartContract) CreateTicket(ctx contractapi.TransactionContextInterface, toOrgMSPID, description string) ([]*model.Ticket, error) {
+func (s *SmartContract) CreateTicket(ctx contractapi.TransactionContextInterface, description string) ([]*model.Ticket, error) {
 
 	transientMap, err := ctx.GetStub().GetTransient()
 	if err != nil {
@@ -101,7 +100,7 @@ func (s *SmartContract) CreateTicket(ctx contractapi.TransactionContextInterface
 		ChannelID:     channelID,
 		TxID:          txID,
 		TxTimestamp:   txTimestamp.String(),
-		OwnerOrgMSPID: toOrgMSPID,
+		OwnerOrgMSPID: coreOrgMSPID,
 		Guarantor:     "ICBC",
 		CreateTime:    time.Now().Format("2006-01-02 15:04:05"),
 		DueDate:       "2023-12-12",
@@ -115,19 +114,22 @@ func (s *SmartContract) CreateTicket(ctx contractapi.TransactionContextInterface
 		return nil, fmt.Errorf("failed to marshal ticket into JSON: %v", err)
 	}
 
-	if err = ctx.GetStub().PutState(ticket.ID, ticketJSON); err != nil {
+	if err = ctx.GetStub().PutState(ticketID, ticketJSON); err != nil {
 		return nil, fmt.Errorf("failed to put ticket to public data: %v", err)
 	}
 	// setting endorsement, only owner can update or query private data
-	if err = utils.SetTicketStateBasedEndorsement(ctx, ticket.ID, toOrgMSPID); err != nil {
+	if err = utils.SetTicketStateBasedEndorsement(ctx, ticketID, coreOrgMSPID); err != nil {
 		return nil, fmt.Errorf("failed to set ticket endorsement: %v", err)
 	}
 
-	collection := utils.BuildCollectionName(toOrgMSPID)
+	collection := utils.BuildCollectionName(coreOrgMSPID)
 	if err = ctx.GetStub().PutPrivateData(collection, ticketID, transientJSON); err != nil {
 		return nil, fmt.Errorf("failed to put transientJSON to private data: %v", err)
 	}
-	log.Printf("Submitting clientOrg is :%v, collection is: %v", coreOrgMSPID, collection)
+
+	// if _, err = s.TransferTicket(ctx, ticketID, toOrgMSPID); err != nil {
+	// 	return nil, fmt.Errorf("failed to create ticket: %v", err)
+	// }
 
 	return ticketList, nil
 }

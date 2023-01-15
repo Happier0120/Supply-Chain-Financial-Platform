@@ -45,7 +45,7 @@ func GetClientOrgMSPID(ctx contractapi.TransactionContextInterface, verifyOrg bo
 	return orgMspId, nil
 }
 
-var defaultLetters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
+var defaultLetters = []rune("0123456789")
 
 // RandomString returns a random string with a fixed length
 func RandomString(n int, allowedChars ...[]rune) string {
