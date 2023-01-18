@@ -1,3 +1,6 @@
+import global from '../global'
+
+
 <template>
   <nav>
     <v-app-bar flat app dark color="deep-purple">
@@ -10,17 +13,15 @@
       <v-list>
         <v-list-item>
           <v-list-item-avatar class="mx-auto">
-            <v-img aspect-ration="0.6" 
-              src="../assets/ZJZY-logo.png"
-            >
+            <v-img aspect-ration="0.6" src="../assets/ZJZY-logo.png">
             </v-img>
           </v-list-item-avatar>
         </v-list-item>
 
         <v-list-item link>
           <v-list-item-content>
-            <v-list-item-title class="text-h6"> CCCCIT </v-list-item-title>
-            <v-list-item-subtitle>ccccit@admin.com</v-list-item-subtitle>
+            <v-list-item-title class="text-h6"> CTCCCC </v-list-item-title>
+            <v-list-item-subtitle>中交智运</v-list-item-subtitle>
           </v-list-item-content>
 
           <v-list-item-action>
@@ -30,24 +31,14 @@
       </v-list>
 
       <v-list nav dense>
-        <v-list-group
-          v-for="item in items"
-          :key="item.title"
-          :prepend-icon="item.action"
-          no-action
-        >
+        <v-list-group v-for="item in items" :key="item.title" :prepend-icon="item.action" no-action>
           <template v-slot:activator>
             <v-list-item-content>
               <v-list-item-title v-text="item.title"></v-list-item-title>
             </v-list-item-content>
           </template>
 
-          <v-list-item
-            v-for="child in item.items"
-            :key="child.subtitle"
-            :to="child.route"
-            router
-          >
+          <v-list-item v-for="child in item.items" :key="child.subtitle" :to="child.route" router>
             <v-list-item-content>
               <v-list-item-title v-text="child.subtitle"></v-list-item-title>
             </v-list-item-content>
@@ -62,12 +53,15 @@
 export default {
   data: () => ({
     drawer: false,
+    account: global.orgName,
+    type: "",
     items: [
-    {
+      {
         action: "el-icon-s-home",
-        route: "/dashboard",
+        route: "/ticket",
         items: [
           { subtitle: "核心企业首页", route: "/dashboard" },
+          { subtitle: "票据溯源", route: "/ticket/traceticket" },
         ],
         title: "首页",
       },
@@ -75,31 +69,32 @@ export default {
         action: "el-icon-s-ticket",
         route: "/ticket",
         items: [
-          { subtitle: "票据列表", route: "/ticket/ticketList" },
+          { subtitle: "票据列表", route: "/ticket/ticketList/notExpired" },
           { subtitle: "开立票据", route: "/ticket/issueticket" },
-          // { subtitle: "转让票据", route: "/ticket/transferticket" },
-          { subtitle: "票据溯源", route: "/ticket/traceticket" },
+          // { subtitle: "票据溯源", route: "/ticket/traceticket" },
         ],
-        title: "未到期票据",
+        title: "未兑付票据",
       },
 
       {
         action: "el-icon-s-ticket",
-        route: "/trans",
+        route: "/ticket",
         items: [
-          { subtitle: "票据列表", route: "/trans/createTrans" },
-          // { subtitle: "", route: "/trans/editTrans" },
-          // { subtitle: "查询运单", route: "/trans/queryTrans" },
+          { subtitle: "票据列表", route: "/ticket/ticketList/expired" },
         ],
-        title: "已到期票据",
+        title: "已兑付票据",
       },
     ],
   }),
+  // mounted() {
+  //   let account = this.$route.query.account;
+  //   console.log("account:", account)
+  // }
 };
 </script>
 
 <style lang="scss" scoped>
-.mx-auto{
+.mx-auto {
   margin-top: 80px;
 }
 </style>

@@ -16,8 +16,8 @@
 
         <v-list-item link>
           <v-list-item-content>
-            <v-list-item-title class="text-h6"> CCCCIT </v-list-item-title>
-            <v-list-item-subtitle>ccccit@admin.com</v-list-item-subtitle>
+            <v-list-item-title class="text-h6"> CTCCCC </v-list-item-title>
+            <v-list-item-subtitle>中交智运</v-list-item-subtitle>
           </v-list-item-content>
 
           <v-list-item-action>
@@ -26,24 +26,14 @@
         </v-list-item>
       </v-list>
       <v-list nav dense>
-        <v-list-group
-          v-for="item in items"
-          :key="item.title"
-          :prepend-icon="item.action"
-          no-action
-        >
+        <v-list-group v-for="item in items" :key="item.title" :prepend-icon="item.action" no-action>
           <template v-slot:activator>
             <v-list-item-content>
               <v-list-item-title v-text="item.title"></v-list-item-title>
             </v-list-item-content>
           </template>
 
-          <v-list-item
-            v-for="child in item.items"
-            :key="child.subtitle"
-            :to="child.route"
-            router
-          >
+          <v-list-item v-for="child in item.items" :key="child.subtitle" :to="child.route" router>
             <v-list-item-content>
               <v-list-item-title v-text="child.subtitle"></v-list-item-title>
             </v-list-item-content>
@@ -59,10 +49,12 @@ export default {
   data: () => ({
     drawer: false,
     items: [
-    {
+      {
         action: "el-icon-s-home",
         route: "/dashboard",
         items: [
+          { subtitle: "运输企业首页", route: "/dashboard" },
+          { subtitle: "票据溯源", route: "/ticket/traceticket" },
         ],
         title: "首页",
       },
@@ -70,22 +62,28 @@ export default {
         action: "el-icon-s-ticket",
         route: "/ticket",
         items: [
-          { subtitle: "票据列表", route: "/ticket/ticketList" },
-          // { subtitle: "开立票据", route: "/ticket/issueticket" },
-          { subtitle: "转让票据", route: "/ticket/transferticket" },
-          { subtitle: "票据溯源", route: "/ticket/traceticket" },
+          { subtitle: "票据列表", route: "/ticket/ticketList/notTransferred" },  //在index.js路由配置配置了可传参，这边传参控制list按钮的展示
+
         ],
-        title: "未到期票据",
+        title: "未转让票据",
       },
       {
         action: "el-icon-s-ticket",
-        route: "/trans",
+        route: "/ticket",
         items: [
-          { subtitle: "票据列表", route: "/trans/createTrans" },
+          { subtitle: "票据列表", route: "/ticket/ticketList/transferred" },
+        ],
+        title: "已转让票据",
+      },
+      {
+        action: "el-icon-s-ticket",
+        route: "/ticket",
+        items: [
+          { subtitle: "票据列表", route: "/ticket/ticketList/expired" },
           // { subtitle: "", route: "/trans/editTrans" },
           // { subtitle: "查询运单", route: "/trans/queryTrans" },
         ],
-        title: "已到期票据",
+        title: "已兑付票据",
       },
     ],
   }),

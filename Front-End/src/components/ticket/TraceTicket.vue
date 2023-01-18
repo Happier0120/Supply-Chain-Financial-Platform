@@ -1,81 +1,84 @@
 <template>
-  <div class="main-box">
-    <div class="bottom-box">
-      <div>
-        <v-breadcrumbs
-          :items="items"
-          large
-        ></v-breadcrumbs>
-      </div>
-      <div class="wea-info">
-        <el-row>
-          <el-col >
-              <div class="query-box">
-               编号
-                <el-input
-                  class="query-input"
-                  v-model="prodNumber"
-                  placeholder="请输入待溯源票据编号"
-                  @input="handleChange"
-                ></el-input>
-              </div> 
-              <el-button type="primary" @click="handleChange"> 开始溯源</el-button>
-          </el-col>
-         
-        </el-row>
-        
-
-        <div class="wea-type-group">
-          <div class="type-info">
-            <span>票据编号: {{ infoData.billCode }} </span>
-            <span> 担保机构: {{ infoData.billCode }} </span>
-            <span> 票据金额: {{ infoData.billCode }} </span>
+  <div class="page">
+    <div class="main-box">
+      <div class="bottom-box">
+        <!-- 票据详情所在界面 -->
+        <div class="wea-info">
+          <div class="query-item">
+            票据编号:
+            <el-input class="query-input" v-model="ticketID" placeholder="请输入内容"></el-input>
           </div>
-        </div>
+          <el-button type="primary" @click="handleChange" style="  margin-left: 20px; ">查 询</el-button>
 
-        <div class="wea-type-group">
-          <div class="type-info">
-            <span>票据接收方: {{ infoData.billCode }} </span>
-            <span> 开单日期: {{ infoData.billCode }} </span>
-            <span> 自动兑付日期: {{ infoData.billCode }} </span>
+          <div class="wea-type-group">
+            <div class="type-info">
+              <span> 票据金额: {{ infoData_privacy.price }} </span>
+              <span> 票据发起方: {{ infoData_public.fromOrder }} </span>
+              <span>票据接收方: {{ infoData_public.ownerOrg }} </span>
+            </div>
           </div>
-        </div>
-        <div class="wea-type-group">
-          <div class="type-info">
-            <span>备注: {{ infoData.billCode }} </span>
+
+          <div class="wea-type-group">
+            <div class="type-info">
+              <span> 开立/转让日期: {{ infoData_public.createTime }} </span>
+              <span> 自动兑付日期: {{ infoData_public.duedate }} </span>
+              <span> 备注: {{ infoData_public.description }} </span>
+            </div>
           </div>
-        </div>
-        <div class="wea-type-group" style="margin: auto">
-          <div id="app">
-            <div v-for="j in 6" :key="j">
-              <el-card class="box-card">
-                <div slot="header" class="clearfix">
 
-                    <div>{{ "组织MSP：" }}</div>
-                  <div>{{  j }}</div>
+          <div class="wea-type-group" style="margin: auto ">
+            <div id="app">
+              <div v-for="j in this.infoData_blockchain" :key="j">
+                <div>
+                  <el-card class="box-card">
+                    <div slot="header" class="clearfix">
+                      <div class=" item">
+                        {{ "票据编号：" }}
+                      </div>
+                      <div class="text item">
+                        {{ j.record.ticketID }}
+                      </div>
+                      <div>{{ "组织MSP：" }}</div>
+                      <div class="text">{{ j.record.ownerOrg }}</div>
 
-                  <div>{{ "背书时间：" }}</div>
-                  <div>{{  j }}</div>
-                </div>
-                 <div class="text item">
-                  {{ "通道：xxxxxxx"  }}
-                </div>
-                <div class="text item">
-                  {{ "交易ID：xxxxxxx"  }}
-                </div>
-                 <div class="text item">
-                  {{ "区块Hash：xxxxxxx"  }}
-                </div>
-                  <div class="text item">
-                  {{ "票据编号：xxxxxxx"  }}
+                      <div>{{ "背书时间：" }}</div>
+                      <div class="text">{{ j.timestamp }}</div>
+
+                      <!-- 
+                <el-button style="float: right; padding: 3px 0" type="text"
+                  >操作按钮</el-button
+                > -->
+                    </div>
+                    <div class=" item">
+                      {{ "通道:" }}
+                    </div>
+                    <div class="text item">
+                      {{ j.channelId }}
+                    </div>
+                    <div class=" item">
+                      {{ "交易ID：" }}
+                    </div>
+                    <div class="text item">
+                      {{ j.txId }}
+                    </div>
+                    <div class=" item">
+                      {{ "区块Hash：" }}
+                    </div>
+                    <div class="text item">
+                      {{ j.hash }}
+                    </div>
+
+
+                  </el-card>
+
                 </div>
 
-              </el-card>
-              
-              <div >
-                  <v-img  src="../../assets/left.png" style="width:100px ;height:100px;float: left;margin-left: 30px;margin-top: 180px">
+                <div>
+                  <v-img src="../../assets/right.png"
+                    style="width:100px ;height:100px;float: left;margin-left: 30px;margin-top: 180px">
                   </v-img>
                 </div>
+              </div>
             </div>
           </div>
         </div>
@@ -88,24 +91,10 @@
 export default {
   data() {
     return {
-      infoData: {},
-      items: [
-        {
-          text: '首页',
-          disabled: true,
-          href: 'dashboard',
-        },
-        {
-          text: '未到期票据',
-          disabled: true,
-          href: 'breadcrumbs_link_1',
-        },
-        {
-          text: '票据溯源',
-          disabled: true,
-          href: 'breadcrumbs_link_2',
-        },
-      ],
+      infoData_public: {},
+      infoData_privacy: {},
+      infoData_blockchain: {},
+      ticketID: "",
     };
   },
   created() {
@@ -114,42 +103,53 @@ export default {
   methods: {
     initData() {
       // console.log(this.$root.id);
-      let id = this.$route.query.id;
+
       this.$axios
-        .get("/console/queryTmsOrderById", { params: { id: id } })
+        .get("/console/queryTicketPublicById", { params: { ticketID: this.ticketID } })
         .then((data) => {
-          this.infoData = data.data.data;
+          console.log("infoData_public:", data.data.data);
+          this.infoData_public = data.data.data;
         });
     },
+    initData2() {
+      // console.log(this.$root.id);
+      let ticketID = this.$route.query.id;
+
+      this.$axios
+        .get("/console/queryTicketPrivateById", { params: { ticketID: this.ticketID } })
+        .then((data) => {
+          console.log("infoData_privacy:", data.data.data);
+          this.infoData_privacy = data.data.data;
+        });
+    },
+    initData3() {
+      // console.log(this.$root.id);
+      let ticketID = this.$route.query.id;
+
+      this.$axios
+        .get("/console/queryTicketHistoryById", { params: { ticketID: this.ticketID } })
+        .then((data) => {
+          console.log("infoData_blockchain:", data.data.data);
+          this.infoData_blockchain = data.data.data;
+        });
+    },
+    handleChange() {
+      this.initData();
+      this.initData2();
+      this.initData3();
+
+    },
   },
-  mounted() {
-    this.initData();
-  },
+
 };
 </script>
 
 <style lang="scss" scoped>
-.query-box {
-  float: left;
-  margin-top: 0px;
-}
-.query-item {
-  float: left;
-  width: 200px;
-  margin-left: 0px;
-  .query-input {
-    width: 100px;
-  }
-}
-.el-input {
-  display: inline-block;
-  width: 200px;
-  margin-left: 20px;
-}
 .main-box {
   padding-left: 50px;
-  margin-left: 280px;
+
   .top-box {
+
     //   padding-left: 40px;
     &::after {
       content: "";
@@ -157,6 +157,7 @@ export default {
       visibility: hidden;
       clear: both;
     }
+
     .pic {
       float: left;
       width: 120px;
@@ -166,10 +167,12 @@ export default {
       background-repeat: no-repeat;
       background-size: 100% 100%;
     }
+
     .info {
       float: left;
       height: 100px;
       margin-left: 80px;
+
       // display: inline-block;
       .name {
         margin-top: 10px;
@@ -177,15 +180,19 @@ export default {
         font-size: 20px;
         font-weight: 900;
       }
+
       .info-item {
         margin-right: 100px;
       }
     }
   }
+
   .bottom-box {
-    margin-top: 20px;
+    margin-top: 0px;
+
     .wea-type-group {
-      margin-bottom: 50px;
+      margin-bottom: 0px;
+
       .type-name {
         width: 50%;
         height: 40px;
@@ -195,32 +202,52 @@ export default {
         font-weight: 900;
         background-image: linear-gradient(to right, #eee, #fff);
       }
+
       .type-info {
         height: 50px;
         margin-top: 40px;
         display: flex;
         padding-left: 20px;
         flex-direction: row;
+
         span {
           flex: 1;
         }
       }
+
       .text {
-        font-size: 14px;
+        font-size: 16px;
+        font-weight: bold;
       }
 
       .item {
-        padding: 18px 0;
+        word-break: break-all;
+        word-wrap: break-word
       }
 
       .box-card {
         float: left;
         width: 300px;
-        margin-top: 40px;
-        margin-left: 100px;
-        background-color:#dfd2ff	;
+        margin-top: 0px;
+        margin-left: 50px;
+        background-color: #dfd2ff;
       }
     }
   }
+}
+
+.query-item {
+  float: left;
+  width: 400;
+  margin-left: 20px;
+
+  .query-input {
+    width: 250px;
+  }
+}
+
+
+.page {
+  margin-left: 220px;
 }
 </style>

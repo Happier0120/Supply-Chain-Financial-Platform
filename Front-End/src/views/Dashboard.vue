@@ -215,9 +215,9 @@
         </div>
       </div>
     </div>
-    <div class="block-index">
+    <!-- <div class="block-index">
        <block-index></block-index>
-    </div>
+    </div> -->
 
   </div>
   
@@ -362,6 +362,6 @@ export default {
   }
 }
 .block-index {
-  padding-top: 550px;
+  padding-top: 700px;
 }
 </style>
