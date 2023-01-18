@@ -1,0 +1,216 @@
+DROP TABLE IF EXISTS `tms_order`;
+CREATE TABLE `tms_order` (
+                             `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '用户id',
+                             `bill_code` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '订单编号 ' ,
+                             `customer_org_name` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '客户机构名称 保密' ,
+                             `customer_prj_name` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '委托项目名称 保密' ,
+                             `carrier_org_name` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '承运机构名称 保密' ,
+                             `consignor_name` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '发货单位名称 保密' ,
+                             `consignee_name` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '收货单位名称 保密' ,
+                             `load_name` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '发货地 保密' ,
+                             `load_addr` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '发货地详细地址 保密' ,
+                             `load_latitude` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '发货地纬度 保密' ,
+                             `load_longitude` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '发货地经度 保密' ,
+                             `pk_load_province` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '发货地省份编码 保密' ,
+                             `load_province` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '发货地省份 保密' ,
+                             `pk_load_city` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '发货地城市编码 保密' ,
+                             `load_city` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '发货地城市 保密' ,
+                             `pk_load_district` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '发货地区县编码 保密' ,
+                             `load_district` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '发货地区县 保密' ,
+                             `unload_name` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '卸货地 保密' ,
+                             `unload_addr` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '卸货地详细地址 保密' ,
+                             `unload_latitude` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '卸货地纬度 保密' ,
+                             `unload_longitude` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '卸货地经度 保密' ,
+                             `pk_unload_province` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '卸货地省份编码 保密' ,
+                             `unload_province` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '卸货地省份 保密' ,
+                             `pk_unload_city` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '卸货地城市编码 保密' ,
+                             `unload_city` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '卸货地城市 保密' ,
+                             `pk_unload_district` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '卸货地区县编码 保密' ,
+                             `unload_district` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '卸货地区县 保密' ,
+                             `trans_distance` bigint(20) NOT NULL DEFAULT '1' COMMENT '运输距离 保密' ,
+                             `load_plan_time` bigint(20) NOT NULL DEFAULT '1' COMMENT '预计发货时间 保密' ,
+                             `arrive_plan_time` bigint(20) NOT NULL DEFAULT '1' COMMENT '最晚到达时间 保密' ,
+                             `closed_time` bigint(20) NOT NULL DEFAULT '1' COMMENT '完成时间 保密' ,
+                             `consignor_price` bigint(20) NOT NULL DEFAULT '1' COMMENT '委托运价 保密' ,
+                             `source_bill_id` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '上级订单主键 保密' ,
+                             `bill_status` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '订单状态 保密' ,
+                             `order_type` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '订单类型 保密' ,
+                             `act_carrier_reg_no` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '实际承运商统一社会信用代码 保密' ,
+                             `wb_load` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '装货地点 地磅接入状态,  保密' ,
+                             `is_report` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '是否为网货订单 保密' ,
+                             `creation_mode` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '订单来源 保密' ,
+                             `carry_mode` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '承运方式 保密' ,
+                             `request_source` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '数据来源 保密' ,
+                             `auto_flag` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '是否自动化流程 保密' ,
+                             `control_mark` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '控制标识 保密' ,
+                             `tier` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '订单所在层级 保密' ,
+                             `remark` bigint(20) NOT NULL DEFAULT '1' COMMENT '备注 保密' ,
+                             `creator` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '创建人主键 保密' ,
+                             `creator_name` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '创建人名称 保密' ,
+                             `created_time` bigint(20) NOT NULL DEFAULT '1' COMMENT '创建时间 保密' ,
+                             `modifier` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '修改人主键 保密' ,
+                             `modifier_name` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '修改人名称 保密' ,
+                             `modified_time` bigint(20) NOT NULL DEFAULT '1' COMMENT '修改时间 保密' ,
+                             `publisher` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '发布人主键 保密' ,
+                             `publisher_name` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '发布人名称 保密' ,
+                             `published_time` bigint(20) NOT NULL DEFAULT '1' COMMENT '发布时间 保密' ,
+                             `receiver` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '接单人主键 保密' ,
+                             `receiver_name` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '接单人名称 保密' ,
+                             `received_time` bigint(20) NOT NULL DEFAULT '1' COMMENT '接单时间 保密' ,
+                             `deleted` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '删除标志 保密' ,
+                             `delegable` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '是否可以转委托  保密' ,
+                             `wb_unload` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '卸货地点 地磅接入状态 保密' ,
+                             `pk_load_point` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '装货点主键 保密' ,
+                             `pk_unload_point` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '卸货点主键 保密' ,
+                             `source_bill_code` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '上游订单编号 保密' ,
+
+                             PRIMARY KEY (`id`)
+) ;
+
+
+DROP TABLE IF EXISTS `tms_order_goods`;
+CREATE TABLE `tms_order_goods` (
+                                   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '用户id',
+                                   `pk_order_goods` bigint(20) NOT NULL DEFAULT '1' COMMENT '主键 保密' ,
+                                   `pk_order` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '订单主键 保密' ,
+                                   `goods_name` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '货物名称 保密' ,
+                                   `weight` numeric(9,9) NOT NULL  COMMENT '订单重量 保密' ,
+                                   `volume` numeric(9,9) NOT NULL  COMMENT '订单体积 保密' ,
+                                   `packages` numeric(9,9) NOT NULL  COMMENT '订单件数 保密' ,
+                                   `loss_rate` numeric(9,9) NOT NULL  COMMENT '损耗率 保密' ,
+                                   `goods_price` numeric(9,9) NOT NULL  COMMENT '货物单价 保密' ,
+                                   `goods_unit` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '货物单位 保密' ,
+                                   `billing_unit` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '计费单位 保密' ,
+                                   `shortage_type` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '货差计算方式 保密' ,
+                                   `shortage` numeric(9,9) NOT NULL  COMMENT '货差值 保密' ,
+                                   `goods_class` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '货物类别 保密' ,
+
+                                   PRIMARY KEY (`id`)
+) ;
+
+DROP TABLE IF EXISTS `tms_waybills`;
+CREATE TABLE `tms_waybills` (
+                                `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '用户id',
+                                `pk_waybill` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '主键 保密' ,
+                                `pk_order` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '关联订单主键 保密' ,
+                                `bill_code` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '运单编号 保密' ,
+                                `pk_org` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '所属机构 保密' ,
+                                `bill_type` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '运单类型 保密' ,
+                                `start_time` bigint(20) NOT NULL DEFAULT '1' COMMENT '发车时间 保密' ,
+                                `arrive_time` bigint(20) NOT NULL DEFAULT '1' COMMENT '到达时间 保密' ,
+                                `checked_time` bigint(20) NOT NULL DEFAULT '1' COMMENT '回单确认时间 保密' ,
+                                `accepted_time` bigint(20) NOT NULL DEFAULT '1' COMMENT '接单时间 保密' ,
+                                `consignor_price` bigint(20) NOT NULL DEFAULT '1' COMMENT '运费单价 保密' ,
+                                `bill_status` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '运单状态 保密' ,
+                                `creator` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '创建人主键 保密' ,
+                                `creator_name` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '创建人名称 保密' ,
+                                `created_time` bigint(20) NOT NULL DEFAULT '1' COMMENT '创建时间 保密' ,
+                                `modifier` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '修改人主键 保密' ,
+                                `modifier_name` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '修改人名称 保密' ,
+                                `modified_time` bigint(20) NOT NULL DEFAULT '1' COMMENT '修改时间 保密' ,
+                                `auto_flag` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '是否自动化流程 保密' ,
+                                `request_source` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '系统来源 保密' ,
+                                `control_mark` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '控制标识 保密' ,
+                                `deleted` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '删除标志 保密' ,
+                                `origin_code` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '原始单号 保密' ,
+                                `is_report` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '是否上报 保密' ,
+                                `remark` varchar(1000) NOT NULL DEFAULT 'text_testdata' COMMENT '备注 保密' ,
+
+                                PRIMARY KEY (`id`)
+) ;
+
+
+
+DROP TABLE IF EXISTS `tms_waybills_goods`;
+CREATE TABLE `tms_waybills_goods` (
+                                      `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '用户id',
+                                      `pk_waybills_goods` bigint(20) NOT NULL DEFAULT '1' COMMENT '主键 保密' ,
+                                      `pk_waybill` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '运单主键 保密' ,
+                                      `goods_name` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '货物名称 保密' ,
+                                      `load_weight` numeric(9,9) NOT NULL  COMMENT '装货重量 保密' ,
+                                      `load_volume` numeric(9,9) NOT NULL  COMMENT '装货体积 保密' ,
+                                      `load_packages` numeric(9,9) NOT NULL  COMMENT '装货件数 保密' ,
+                                      `unload_weight` numeric(9,9) NOT NULL  COMMENT '卸货重量 保密' ,
+                                      `unload_volume` numeric(9,9) NOT NULL  COMMENT '卸货体积 保密' ,
+                                      `unload_packages` numeric(9,9) NOT NULL  COMMENT '卸货件数 保密' ,
+                                      `loss_rate` numeric(9,9) NOT NULL  COMMENT '损耗率 保密' ,
+                                      `goods_price` numeric(9,9) NOT NULL  COMMENT '货物单价 保密' ,
+                                      `goods_unit` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '货物单位 保密' ,
+                                      `billing_unit` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '计费单位 保密' ,
+                                      `shortage_type` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '货差计算方式 保密' ,
+                                      `shortage` numeric(9,9) NOT NULL  COMMENT '货差值 保密' ,
+                                      `goods_class` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '货物类别 保密' ,
+                                      `dispatch_weight` numeric(9,9) NOT NULL  COMMENT '派车重量 保密' ,
+                                      `dispatch_volume` numeric(9,9) NOT NULL  COMMENT '派车体积 保密' ,
+                                      `dispatch_packages` numeric(9,9) NOT NULL  COMMENT '派车件数 保密' ,
+
+
+                                      PRIMARY KEY (`id`)
+) ;
+
+
+
+DROP TABLE IF EXISTS `tms_charges`;
+CREATE TABLE `tms_charges` (
+                               `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '用户id',
+                               `pk_charge` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '主键 保密' ,
+                               `charge_status` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '账单状态  保密' ,
+                               `pay_status` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '付款状态 保密' ,
+                               `charge_code` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '账单编号 保密' ,
+                               `order_type` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '运输方式 保密' ,
+                               `statistic_type` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '统计方式 保密' ,
+                               `pk_receive_org` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '应收机构主键 保密' ,
+                               `receive_org_name` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '应收机构名称 保密' ,
+                               `pk_payment_org` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '应付机构主键 保密' ,
+                               `payment_org_name` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '应付机构名称 保密' ,
+                               `esign_status` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '签章状态 保密' ,
+                               `esign_flow_id` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '流程ID 保密' ,
+                               `esign_completed_time` bigint(20) NOT NULL DEFAULT '1' COMMENT '签章完成时间 保密' ,
+                               `start_time` bigint(20) NOT NULL DEFAULT '1' COMMENT '开始时间 保密' ,
+                               `end_time` bigint(20) NOT NULL DEFAULT '1' COMMENT '结束时间 保密' ,
+                               `is_start_time` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '是否发车时间卸车时间 保密' ,
+                               `charge_mny` numeric(9,9) NOT NULL  COMMENT '应付金额（元） 保密' ,
+                               `adjust_mny` numeric(9,9) NOT NULL  COMMENT '调整金额（元） 保密' ,
+                               `receivable_mny` numeric(9,9) NOT NULL  COMMENT '应收运费（元） 保密' ,
+                               `load_weight` numeric(9,9) NOT NULL  COMMENT '装车重量 保密' ,
+                               `unload_weight` numeric(9,9) NOT NULL  COMMENT '卸车重量 保密' ,
+                               `load_packages` numeric(9,9) NOT NULL  COMMENT '装车件数 保密' ,
+                               `unload_packages` numeric(9,9) NOT NULL  COMMENT '卸车件数 保密' ,
+                               `load_volume` numeric(9,9) NOT NULL  COMMENT '装车体积 保密' ,
+                               `unload_volume` numeric(9,9) NOT NULL  COMMENT '卸车体积 保密' ,
+                               `trans_times` numeric(9,9) NOT NULL  COMMENT '运输车次 保密' ,
+                               `settle_weight` numeric(9,9) NOT NULL  COMMENT '结算重量 保密' ,
+                               `settle_packages` numeric(9,9) NOT NULL  COMMENT '结算件数 保密' ,
+                               `settle_volume` numeric(9,9) NOT NULL  COMMENT '结算体积 保密' ,
+                               `settle_trans_times` numeric(9,9) NOT NULL  COMMENT '结算车次 保密' ,
+                               `receive_submitter` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '应收账单提交人主键 保密' ,
+                               `receive_submitter_name` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '应收账单提交人姓名 保密' ,
+                               `receive_submitted_time` bigint(20) NOT NULL DEFAULT '1' COMMENT '应收账单初核提交时间 保密' ,
+                               `receive_checker` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '应收账单复核人主键 保密' ,
+                               `receive_checker_name` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '应收账单复核人姓名 保密' ,
+                               `receive_checked_time` bigint(20) NOT NULL DEFAULT '1' COMMENT '应收账单复核时间 保密' ,
+                               `payment_confirmer` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '应付账单初核人主键 保密' ,
+                               `payment_confirmer_name` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '应付账单初核人姓名 保密' ,
+                               `payment_confirmed_time` bigint(20) NOT NULL DEFAULT '1' COMMENT '应付账单初核时间 保密' ,
+                               `payment_checker` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '应付账单复核人主键 保密' ,
+                               `payment_checker_name` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '应付账单复核人姓名 保密' ,
+                               `payment_checked_time` bigint(20) NOT NULL DEFAULT '1' COMMENT '应付账单复核时间 保密' ,
+                               `request_source` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '数据来源 保密' ,
+                               `remark` varchar(1000) NOT NULL DEFAULT 'text_testdata' COMMENT '备注 保密' ,
+                               `reject_reason` varchar(1000) NOT NULL DEFAULT 'text_testdata' COMMENT '拒绝原因 保密' ,
+                               `creator` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '创建人主键 保密' ,
+                               `creator_name` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '创建人姓名 保密' ,
+                               `created_time` bigint(20) NOT NULL DEFAULT '1' COMMENT '创建时间 保密' ,
+                               `modifier` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '更新人主键 保密' ,
+                               `modifier_name` varchar(100) NOT NULL DEFAULT 'test_data' COMMENT '更新人姓名 保密' ,
+                               `modified_time` bigint(20) NOT NULL DEFAULT '1' COMMENT '更新时间 保密' ,
+
+                               PRIMARY KEY (`id`)
+) ;
+
+
+
+
+
+
+
