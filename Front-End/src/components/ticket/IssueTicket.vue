@@ -1,62 +1,58 @@
 <template>
-  <v-container>
-    <div class="page">
-      <div>
-        <v-breadcrumbs :items="items" large></v-breadcrumbs>
-      </div>
+  <div class="issue-content">
+    <div class="crumb-bar">
+      <v-breadcrumbs :items="items" small></v-breadcrumbs>
+    </div>
 
-      <el-form :label-position="labelPosition" label-width="80px">
-        <!-- <el-row :gutter="10">
-          <el-col :span="8">
-            <el-form-item label="开票编号">
-              <el-input v-model="ticket.ticketID"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row> -->
-        <el-row :gutter="10">
-          <el-col :span="8">
-            <el-form-item label="票据金额">
-              <el-input v-model="ticket.price"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row :gutter="10">
-          <el-col :span="8">
-            <el-form-item label="接收方">
-              <el-input v-model="ticket.ownerOrg"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <!-- <el-row :gutter="10">
-          <el-col :span="8">
-            <el-form-item label="担保机构">
-              <el-input v-model="ticket.guarantor"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row> -->
-        <el-row :gutter="10">
-          <el-col :span="8">
-            <el-form-item label="兑付日期">
-              <el-date-picker :value-format="'yyyyMMdd'" class="query-input" v-model="ticket.duedate" type="date"
-                placeholder="选择日期">
-              </el-date-picker>
-              <!-- <el-input v-model="ticket.duedate"></el-input> -->
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row :gutter="10">
-          <el-col :span="8">
-            <el-form-item label="备注">
-              <el-input v-model="ticket.description"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-      </el-form>
-      <div class="text-center my-2">
-        <el-button type="primary" dark large @click="clickCreate">确认开立</el-button>
+    <div class="issue-workbench">
+      <div class="workbench-container">
+        <div class="issue-bill-header-area">
+          <span class="op-note">Issue ticket</span>
+          <el-button type="primary" @click="clickCreate">Issue</el-button>
+        </div>
+        <el-form :label-position="labelPosition" label-width="100px">
+          <el-row :gutter="10">
+            <el-col :span="8">
+              <el-form-item label="Ticket issuer">
+                <el-input v-model="ticket.fromOrder" :disabled="true"></el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row :gutter="10">
+            <el-col :span="8">
+              <el-form-item label="Ticket amount">
+                <el-input v-model="ticket.price"></el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row :gutter="10">
+            <el-col :span="8">
+              <el-form-item label="Ticket receiver">
+                <el-input v-model="ticket.ownerOrg"></el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row :gutter="10">
+            <el-col :span="8">
+              <el-form-item label="Expired date">
+                <el-date-picker :value-format="'yyyyMMdd'" class="query-input" v-model="ticket.duedate" type="date"
+                  placeholder="select date">
+                </el-date-picker>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row :gutter="10">
+            <el-col :span="8">
+              <el-form-item label="Remark">
+                <el-input v-model="ticket.description"></el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
       </div>
     </div>
-  </v-container>
+
+  </div>
 </template>
 
 
@@ -67,17 +63,12 @@ export default {
     return {
       items: [
         {
-          text: '首页',
-          disabled: true,
-          href: 'dashboard',
-        },
-        {
-          text: '未到期票据',
+          text: 'Unexpired tickets',
           disabled: true,
           href: 'breadcrumbs_link_1',
         },
         {
-          text: '开立票据',
+          text: 'Issue ticket',
           disabled: true,
           href: 'breadcrumbs_link_2',
         },
@@ -87,7 +78,7 @@ export default {
         createTime: "",
         description: "",
         duedate: "",
-        fromOrder: "",
+        fromOrder: this.global.orgName,
         guarantor: "",
         objectType: "",
         ownerOrg: "",
@@ -121,21 +112,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.input {
-  margin-top: 30px;
-}
-
-.input2 {
-  border: 1px solid;
-
-}
-
-.crate-order {
-  margin-top: 50px;
-}
-
-.page {
-  margin-left: 280px;
-}
-</style>
+<style src="../../style/component/issueTicket.css"></style>

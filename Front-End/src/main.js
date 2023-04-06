@@ -8,6 +8,11 @@ import Element from 'element-ui'
 import "element-ui/lib/theme-chalk/index.css"
 //axios
 import axios from 'axios'
+
+//echarts
+import * as echarts from 'echarts';
+
+Vue.prototype.$echarts = echarts
 Vue.prototype.$axios = axios
 //baseURL
 axios.defaults.baseURL = "http://192.168.1.61:14449"

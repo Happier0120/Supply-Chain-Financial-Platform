@@ -1,0 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Alkatra&family=Bungee+Spice&family=Exo+2&display=swap');
+
+.issue-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.issue-content .crumb-bar {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 20px;
+    /* padding: 15px; */
+    background-color: #fff;
+}
+
+.issue-content .crumb-bar li a {
+    font-family: 'Alkatra', cursive;
+    font-family: 'Bungee Spice', cursive;
+    font-family: 'Exo 2', sans-serif;
+}
+
+.issue-content .issue-workbench {
+    width: 100%;
+    height: 500px;
+    margin-top: 20px;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+}
+
+.issue-workbench .workbench-container {
+    width: 95%;
+    height: 100%;
+    background-color: #fff;
+}
+
+.workbench-container .issue-bill-header-area {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.workbench-container .issue-bill-header-area span {
+    font-family: 'Alkatra', cursive;
+    font-family: 'Bungee Spice', cursive;
+    font-family: 'Exo 2', sans-serif;
+    font-weight: bold;
+}
+
+.workbench-container .issue-bill-header-area .op-note {
+    font-size: 20px;
+}
+
+.workbench-container .issue-bill-header-area .el-button--primary {
+    width: 105px;
+    border-radius: 0;
+    background-color: #1e88e5;
+}
+
+.workbench-container .el-form .el-col {
+    width: 100%;
+}
+
+.workbench-container .el-form .el-col .el-form-item__label {
+    width: 10% !important; 
+    font-family: 'Alkatra', cursive;
+    font-family: 'Bungee Spice', cursive;
+    font-family: 'Exo 2', sans-serif;
+}
+
+.workbench-container .el-form .el-input {
+    width: 50%;
+}

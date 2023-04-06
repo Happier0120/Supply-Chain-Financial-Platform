@@ -1,235 +1,60 @@
 <template>
-  <div class="main-box">
-    <div class="bottom-box">
-      <div class="wea-info">
-        <div class="wea-type-group" style="margin: auto">
-          <div id="app">
-            <el-card class="box-card">
-              <div>{{ "区块数" }}</div>
-
-              <div
-                style="
-                  font-size: 40px;
-                  color: black;
-                  margin-top: 5px;
-                  margin-bottom: 5px;
-                "
-              >
-                {{this.infoData.blockNumber}}
-              </div>
-
-              <div>{{ "BLOCKNumber" }}</div>
-              <!-- 
-                  <el-button style="float: right; padding: 3px 0" type="text"
-                    >操作按钮</el-button
-                  > -->
-            </el-card>
-            <el-card class="box-card">
-              <div>{{ "通道数" }}</div>
-
-              <div
-                style="
-                  font-size: 40px;
-                  color: black;
-                  margin-top: 5px;
-                  margin-bottom: 5px;
-                "
-              >
-              1
-                <!-- {{ this.infoData.blockNumber}} --> 
-              </div>
-
-              <div>{{ "CHANNELNUMBER" }}</div>
-              <!-- 
-                  <el-button style="float: right; padding: 3px 0" type="text"
-                    >操作按钮</el-button
-                  > -->
-            </el-card>
-            <el-card class="box-card">
-              <div>{{ "节点" }}</div>
-
-              <div
-                style="
-                  font-size: 40px;
-                  color: black;
-                  margin-top: 5px;
-                  margin-bottom: 5px;
-                "
-              >
-                {{this.infoData.nodesNumber}}
-              </div>
-
-              <div>{{ "NODES" }}</div>
-              <!-- 
-                  <el-button style="float: right; padding: 3px 0" type="text"
-                    >操作按钮</el-button
-                  > -->
-            </el-card>
-            <el-card class="box-card">
-              <div>{{ "交易" }}</div>
-
-              <div
-                style="
-                  font-size: 40px;
-                  color: black;
-                  margin-top: 5px;
-                  margin-bottom: 5px;
-                "
-              >
-              {{this.infoData.transactionCount}}
-              </div>
-
-              <div>{{ "TRANSACTIONS" }}</div>
-              <!-- 
-                  <el-button style="float: right; padding: 3px 0" type="text"
-                    >操作按钮</el-button
-                  > -->
-            </el-card>
-            <el-card class="box-card2">
-              <div>{{ "今日开立票据" }}</div>
-
-              <div
-                style="
-                  font-size: 40px;
-                  color: black;
-                  margin-top: 5px;
-                  margin-bottom: 5px;
-                "
-                v-if="this.infoData2"
-              >
-                {{this.infoData2.todayTicketsNumber}}
-              </div>
-            </el-card>
-            <el-card class="box-card2">
-              <div>{{ "今日开立金额" }}</div>
-
-              <div
-                style="
-                  font-size: 40px;
-                  color: black;
-                  margin-top: 5px;
-                  margin-bottom: 5px;
-                "
-                v-if="this.infoData2"
-              >
-              {{this.infoData2.todayPrice}}
-              </div>
-            </el-card>
-            <el-card class="box-card2">
-              <div>{{ "总开立票据" }}</div>
-
-              <div
-                style="
-                  font-size: 40px;
-                  color: black;
-                  margin-top: 5px;
-                  margin-bottom: 5px;
-                "
-                v-if="this.infoData2"
-              >
-              {{this.infoData2.todayTicketsNumber}}
-              </div>
-            </el-card>
-            <el-card class="box-card2">
-              <div>{{ "总开立金额" }}</div>
-
-              <div
-                style="
-                  font-size: 40px;
-                  color: black;
-                  margin-top: 5px;
-                  margin-bottom: 5px;
-                "
-                v-if="this.infoData2"
-              >
-              {{this.infoData2.price}}
-              </div>
-            </el-card>
-            <el-card class="box-card2">
-              <div>{{ "今日到期票据" }}</div>
-              <div
-                style="
-                  font-size: 40px;
-                  color: black;
-                  margin-top: 5px;
-                  margin-bottom: 5px;
-                "
-                v-if="this.infoData2"
-              >
-              {{this.infoData2.todayExpiredTicketsNumber}}
-              </div>
-
-
-            </el-card>
-            <el-card class="box-card2">
-              <div>{{ "今日兑付金额" }}</div>
-
-              <div
-                style="
-                  font-size: 40px;
-                  color: black;
-                  margin-top: 5px;
-                  margin-bottom: 5px;
-                "
-                v-if="this.infoData2"
-              >
-              {{this.infoData2.todayPrice}}
-              </div>
-
-            </el-card>
-            <el-card class="box-card2">
-              <div>{{ "总到期票据" }}</div>
-
-              <div
-                style="
-                  font-size: 40px;
-                  color: black;
-                  margin-top: 5px;
-                  margin-bottom: 5px;
-                "
-                v-if="this.infoData2"
-              >
-              {{this.infoData2.expiredTicketsNumber}}
-              </div>
-
-
-            </el-card>
-            <el-card class="box-card2">
-              <div>{{ "总兑付金额" }}</div>
-
-              <div
-                style="
-                  font-size: 40px;
-                  color: black;
-                  margin-top: 5px;
-                  margin-bottom: 5px;
-                "
-                v-if="this.infoData2"
-              >
-              {{this.infoData2.price}}
-              </div>
-
-
-            </el-card>
-          </div>
+  <div class="board-content">
+    <div class="topbar">
+      <div class="top-container">
+        <div class="left">
+          <img src="../images/供应链-copy.png" alt="供应链icon">
+          <span class="prodIcon">Supply-Chain Financial Platform</span>
+        </div>
+        <div class="right">
+          <button class="profile-container" @click="noticeClick">
+            <div class="avatar-box">
+              <img class="avatar" src="../images/avatar14.png" alt="avatar">
+            </div>
+            <span>{{this.global.orgName}}</span>
+          </button>
+          <button class="notice-container" @click="noticeClick">
+            <img src="../images/notice (1).png" alt="notice">
+            <span>Message</span>
+          </button>
+          <button class="account-op-container" @click="noticeClick">
+            <img src="../images/md-log-out (2).png" alt="Log out">
+            <span>Log out</span>
+          </button>
         </div>
       </div>
     </div>
-    <!-- <div class="block-index">
-       <block-index></block-index>
-    </div> -->
-
+    <div class="body">
+      <div class="side-bar">
+        <CoreNavbar v-if="this.global.type == '核心企业'"></CoreNavbar>
+        <TransNavbar v-else></TransNavbar>
+      </div>
+      <div class="info-content">
+        <div class="info-container">
+          <!-- <div class="top-content">
+            
+          </div>
+          <div class="bottom-content">
+          </div> -->
+          <router-view/>
+        </div>
+      </div>
+    </div>
   </div>
   
 </template>
 
 <script>
+import TransNavbar from '@/components/transNavbar.vue';
+import CoreNavbar from '@/components/coreNavbar.vue';
 import Test from '../components/test.vue'
 
 export default {
-  components: { 
-     'block-index': Test,
-   },
+  components: {
+    "block-index": Test,
+    CoreNavbar,
+    TransNavbar
+},
   data() {
     return {
       infoData: {},
@@ -262,6 +87,13 @@ export default {
 
         });
     },
+
+    noticeClick() {
+      this.$notify.info({
+          title: 'Notice',
+          message: 'This feature is not yet available.'
+        });
+    }
     
   },
   mounted() {
@@ -365,3 +197,6 @@ export default {
   padding-top: 700px;
 }
 </style>
+
+
+<style src="../style/dashboard.css"></style>

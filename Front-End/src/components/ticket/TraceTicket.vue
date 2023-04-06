@@ -1,87 +1,107 @@
 <template>
-  <div class="page">
-    <div class="main-box">
-      <div class="bottom-box">
-        <!-- 票据详情所在界面 -->
-        <div class="wea-info">
-          <div class="query-item">
-            票据编号:
-            <el-input class="query-input" v-model="ticketID" placeholder="请输入内容"></el-input>
-          </div>
-          <el-button type="primary" @click="handleChange" style="  margin-left: 20px; ">查 询</el-button>
+  <div class="trace-content">
+    <div class="trace-bar">
+      <div class="trace-input-box">
+        <span>Ticket number</span>
+        <el-input v-model="ticketID"></el-input>
+      </div>
+      <div class="trace-btn">
+        <el-button plain icon="el-icon-refresh-left">Reset</el-button>
+        <el-button type="primary" icon="el-icon-search" @click="handleChange">Search</el-button>
+      </div>
+    </div>
+    <div class="trace-result">
+      <el-empty :image-size="200" description="No data available" v-if="!this.hasRes"></el-empty>
+      <div class="res-container" v-else>
+        <el-descriptions class="margin-top" :column="2" border>
+          <el-descriptions-item>
+            <template slot="label">
+              <i class="el-icon-s-flag"></i>
+              Ticket number
+            </template>
+            {{ticketID}}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">
+              <i class="el-icon-coin"></i>
+              Ticket amount
+            </template>
+            {{ infoData_privacy.price }}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">
+              <i class="el-icon-user"></i>
+              Ticket issuer
+            </template>
+            {{ infoData_public.fromOrder }}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">
+              <i class="el-icon-user-solid"></i>
+              Ticket receiver
+            </template>
+            {{ infoData_public.ownerOrg }}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">
+              <i class="el-icon-date"></i>
+              Issue/transfer date
+            </template>
+            {{infoData_public.createTime}}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">
+              <i class="el-icon-shopping-cart-1"></i>
+              Expired date
+            </template>
+            {{ infoData_public.duedate }}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">
+              <i class="el-icon-notebook-1"></i>
+              Remark
+            </template>
+            {{ infoData_public.description }}
+          </el-descriptions-item>
+        </el-descriptions>
 
-          <div class="wea-type-group">
-            <div class="type-info">
-              <span> 票据金额: {{ infoData_privacy.price }} </span>
-              <span> 票据发起方: {{ infoData_public.fromOrder }} </span>
-              <span>票据接收方: {{ infoData_public.ownerOrg }} </span>
-            </div>
-          </div>
-
-          <div class="wea-type-group">
-            <div class="type-info">
-              <span> 开立/转让日期: {{ infoData_public.createTime }} </span>
-              <span> 自动兑付日期: {{ infoData_public.duedate }} </span>
-              <span> 备注: {{ infoData_public.description }} </span>
-            </div>
-          </div>
-
-          <div class="wea-type-group" style="margin: auto ">
-            <div id="app">
-              <div v-for="j in this.infoData_blockchain" :key="j">
-                <div>
-                  <el-card class="box-card">
-                    <div slot="header" class="clearfix">
-                      <div class=" item">
-                        {{ "票据编号：" }}
-                      </div>
-                      <div class="text item">
-                        {{ j.record.ticketID }}
-                      </div>
-                      <div>{{ "组织MSP：" }}</div>
-                      <div class="text">{{ j.record.ownerOrg }}</div>
-
-                      <div>{{ "背书时间：" }}</div>
-                      <div class="text">{{ j.timestamp }}</div>
-
-                      <!-- 
-                <el-button style="float: right; padding: 3px 0" type="text"
-                  >操作按钮</el-button
-                > -->
+        <div class="history-box">
+          <el-steps align-center>
+            <el-step v-for="(item, index) in this.infoData_blockchain">
+              <template slot="description">
+                <div class="bill-info-box">
+                  <el-card>
+                    <div class="item-info">
+                      <span class="item-info-title">Ticket number:</span>
+                      <span>{{ item.record.ticketID }}</span>
                     </div>
-                    <div class=" item">
-                      {{ "通道:" }}
+                    <div class="item-info">
+                      <span class="item-info-title">Organization MSP:</span>
+                      <span>{{ item.record.ownerOrg }}</span>
                     </div>
-                    <div class="text item">
-                      {{ j.channelId }}
+                    <div class="item-info">
+                      <span class="item-info-title">Endorsement time:</span>
+                      <span>{{item.timestamp}}</span>
                     </div>
-                    <div class=" item">
-                      {{ "交易ID：" }}
+                    <div class="item-info">
+                      <span class="item-info-title">Channel ID:</span>
+                      <span>{{ item.channelId }}</span>
                     </div>
-                    <div class="text item">
-                      {{ j.txId }}
+                    <div class="item-info">
+                      <span class="item-info-title">Transaction ID:</span>
+                      <span>{{ item.txId }}</span>
                     </div>
-                    <div class=" item">
-                      {{ "区块Hash：" }}
+                    <div class="item-info">
+                      <span class="item-info-title">Block hash:</span>
+                      <span>{{ item.hash }}</span>
                     </div>
-                    <div class="text item">
-                      {{ j.hash }}
-                    </div>
-
-
                   </el-card>
-
                 </div>
-
-                <div>
-                  <v-img src="../../assets/right.png"
-                    style="width:100px ;height:100px;float: left;margin-left: 30px;margin-top: 180px">
-                  </v-img>
-                </div>
-              </div>
-            </div>
-          </div>
+              </template>
+            </el-step>
+          </el-steps>
         </div>
+
       </div>
     </div>
   </div>
@@ -95,10 +115,12 @@ export default {
       infoData_privacy: {},
       infoData_blockchain: {},
       ticketID: "",
+      hasRes: false
     };
   },
   created() {
     console.log("跳转到票据详情");
+    console.log(this.infoData_public);
   },
   methods: {
     initData() {
@@ -109,6 +131,7 @@ export default {
         .then((data) => {
           console.log("infoData_public:", data.data.data);
           this.infoData_public = data.data.data;
+          // this.hasRes = true
         });
     },
     initData2() {
@@ -130,7 +153,10 @@ export default {
         .get("/console/queryTicketHistoryById", { params: { ticketID: this.ticketID } })
         .then((data) => {
           console.log("infoData_blockchain:", data.data.data);
-          this.infoData_blockchain = data.data.data;
+          if (data.data.data !== null) {
+            this.infoData_blockchain = data.data.data;
+            this.hasRes = true;
+          }
         });
     },
     handleChange() {
@@ -144,110 +170,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.main-box {
-  padding-left: 50px;
-
-  .top-box {
-
-    //   padding-left: 40px;
-    &::after {
-      content: "";
-      display: block;
-      visibility: hidden;
-      clear: both;
-    }
-
-    .pic {
-      float: left;
-      width: 120px;
-      height: 80px;
-      // border: 1px solid #ccc;
-      // display: inline-block;
-      background-repeat: no-repeat;
-      background-size: 100% 100%;
-    }
-
-    .info {
-      float: left;
-      height: 100px;
-      margin-left: 80px;
-
-      // display: inline-block;
-      .name {
-        margin-top: 10px;
-        margin-bottom: 30px;
-        font-size: 20px;
-        font-weight: 900;
-      }
-
-      .info-item {
-        margin-right: 100px;
-      }
-    }
-  }
-
-  .bottom-box {
-    margin-top: 0px;
-
-    .wea-type-group {
-      margin-bottom: 0px;
-
-      .type-name {
-        width: 50%;
-        height: 40px;
-        line-height: 40px;
-        padding-left: 20px;
-        font-size: 18px;
-        font-weight: 900;
-        background-image: linear-gradient(to right, #eee, #fff);
-      }
-
-      .type-info {
-        height: 50px;
-        margin-top: 40px;
-        display: flex;
-        padding-left: 20px;
-        flex-direction: row;
-
-        span {
-          flex: 1;
-        }
-      }
-
-      .text {
-        font-size: 16px;
-        font-weight: bold;
-      }
-
-      .item {
-        word-break: break-all;
-        word-wrap: break-word
-      }
-
-      .box-card {
-        float: left;
-        width: 300px;
-        margin-top: 0px;
-        margin-left: 50px;
-        background-color: #dfd2ff;
-      }
-    }
-  }
-}
-
-.query-item {
-  float: left;
-  width: 400;
-  margin-left: 20px;
-
-  .query-input {
-    width: 250px;
-  }
-}
-
-
-.page {
-  margin-left: 220px;
-}
-</style>
+<style src="../../style/component/traceTicket.css"></style>

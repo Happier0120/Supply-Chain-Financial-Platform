@@ -1,0 +1,71 @@
+@import url('https://fonts.googleapis.com/css2?family=Alkatra&family=Bungee+Spice&family=Exo+2&display=swap');
+
+.list-content-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.list-content .trace-bar {
+    width: 100%;
+    height: 120px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 25px 0px 0px 0px;
+    padding: 15px;
+    background-color: #fff;
+}
+
+.list-content .trace-bar .trace-input-box {
+    width: 80%;
+    height: 100%;
+    display: flex;
+}
+
+.trace-input-box .query-item-box {
+    width: 50%;
+    display: flex;
+    align-items: center;
+}
+
+.trace-input-box .query-item-box .el-input {
+    width: 60% !important;
+}
+
+.trace-input-box .query-item-box1 {
+    width: 40%;
+}
+
+.list-content .list-result {
+    margin-top: 20px;
+    width: 100%;
+    height: 650px;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+} 
+
+.list-result .res-container {
+    width: 95%;
+    height: 100%;
+}
+
+.list-result .res-container .el-table {
+    margin-top: 15px;
+}
+
+.list-result .res-container .el-table__header {
+    background-color: #eee;
+}
+
+.list-result .res-container .cell {
+    font-family: 'Alkatra', cursive;
+    font-family: 'Bungee Spice', cursive;
+    font-family: 'Exo 2', sans-serif;
+}
+
+
+
